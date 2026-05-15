@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 
 class ToolBase(BaseModel):
@@ -20,3 +20,150 @@ class Tool(ToolBase):
 
     class Config:
         from_attributes = True
+
+
+class TimestampConvertRequest(BaseModel):
+    timestamp: Optional[int] = None
+    datetime_str: Optional[str] = None
+    format: Optional[str] = "%Y-%m-%d %H:%M:%S"
+
+
+class TimestampConvertResponse(BaseModel):
+    timestamp: int
+    datetime_str: str
+    format: str
+
+
+class JsonFormatRequest(BaseModel):
+    json_str: str
+    indent: Optional[int] = 2
+
+
+class JsonFormatResponse(BaseModel):
+    valid: bool
+    formatted: Optional[str] = None
+    error: Optional[str] = None
+    minified: Optional[str] = None
+
+
+class Md5EncryptRequest(BaseModel):
+    text: str
+    uppercase: Optional[bool] = False
+
+
+class Md5EncryptResponse(BaseModel):
+    original_text: str
+    md5_hash: str
+    uppercase: bool
+
+
+class Md5CompareRequest(BaseModel):
+    text: str
+    md5_hash: str
+
+
+class Md5CompareResponse(BaseModel):
+    match: bool
+    original_text: str
+    provided_hash: str
+
+
+class NumberToChineseRequest(BaseModel):
+    number: float
+
+
+class NumberToChineseResponse(BaseModel):
+    number: float
+    chinese: str
+
+
+class RsaKeyGenerateRequest(BaseModel):
+    key_size: Optional[int] = 2048
+
+
+class RsaKeyGenerateResponse(BaseModel):
+    public_key: str
+    private_key: str
+    key_size: int
+
+
+class RsaEncryptRequest(BaseModel):
+    plaintext: str
+    public_key: str
+
+
+class RsaEncryptResponse(BaseModel):
+    ciphertext: str
+    plaintext: str
+
+
+class RsaDecryptRequest(BaseModel):
+    ciphertext: str
+    private_key: str
+
+
+class RsaDecryptResponse(BaseModel):
+    plaintext: str
+    ciphertext: str
+
+
+class TimerCreateRequest(BaseModel):
+    name: str
+    duration: int
+
+
+class TimerCreateResponse(BaseModel):
+    id: str
+    name: str
+    duration: int
+    created_at: str
+
+
+class TimerStatusResponse(BaseModel):
+    id: str
+    name: str
+    duration: int
+    remaining: int
+    status: str
+    created_at: str
+
+
+class TimerHistoryItem(BaseModel):
+    id: str
+    name: str
+    duration: int
+    completed_at: str
+
+
+class WeightConvertRequest(BaseModel):
+    value: float
+    from_unit: str
+    to_unit: str
+
+
+class WeightConvertResponse(BaseModel):
+    value: float
+    from_unit: str
+    to_unit: str
+    result: float
+
+
+class TimeDifferenceRequest(BaseModel):
+    start_time: str
+    end_time: str
+    format: Optional[str] = "%Y-%m-%d %H:%M:%S"
+
+
+class TimeDifferenceResponse(BaseModel):
+    start_time: str
+    end_time: str
+    years: int
+    months: int
+    days: int
+    hours: int
+    minutes: int
+    seconds: int
+    total_days: int
+    total_hours: int
+    total_minutes: int
+    total_seconds: int
