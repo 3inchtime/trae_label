@@ -47,17 +47,20 @@ onMounted(fetchTools)
 h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: #2c3e50;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .loading, .error {
   text-align: center;
   padding: 2rem;
   font-size: 1.1rem;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .error {
-  color: #e74c3c;
+  color: var(--error-text);
 }
 
 .tools-grid {
@@ -67,11 +70,11 @@ h2 {
 }
 
 .tool-card {
-  background: white;
+  background: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: transform 0.2s, background 0.3s, box-shadow 0.3s;
 }
 
 .tool-card:hover {
@@ -80,21 +83,24 @@ h2 {
 
 .tool-card h3 {
   margin-bottom: 0.5rem;
-  color: #2c3e50;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .tool-card p {
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
   font-size: 0.95rem;
+  transition: color 0.3s;
 }
 
 .category {
   display: inline-block;
-  background: #42b983;
+  background: var(--accent);
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-size: 0.85rem;
+  transition: background 0.3s;
 }
 </style>
