@@ -13,4 +13,6 @@ export const healthCheck = () => api.get('/health')
 export const convertTimestamp = (data) => api.post('/tools/timestamp/convert', data)
 export const getCurrentTimestamp = () => api.get('/tools/timestamp/now')
 
+export const convertNumberToChinese = (data) => api.post('/tools/number-to-chinese', data)
+
 export default api

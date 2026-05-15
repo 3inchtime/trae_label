@@ -10,6 +10,11 @@
         <h4>时间戳转换</h4>
         <p>时间戳与日期时间的相互转换，支持快捷时间点</p>
       </router-link>
+      <router-link to="/tools/number-to-chinese" class="tool-card">
+        <div class="tool-icon">💰</div>
+        <h4>数字转中文大写</h4>
+        <p>将数字金额转换为标准中文大写金额，支持小数和负数</p>
+      </router-link>
     </div>
 
     <h3 class="features-title">平台特性</h3>
