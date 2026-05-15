@@ -23,4 +23,13 @@ export const generateRsaKeys = (data) => api.post('/tools/rsa/generate-keys', da
 export const rsaEncrypt = (data) => api.post('/tools/rsa/encrypt', data)
 export const rsaDecrypt = (data) => api.post('/tools/rsa/decrypt', data)
 
+export const createTimer = (data) => api.post('/tools/timer/create', data)
+export const startTimer = (timerId) => api.post(`/tools/timer/${timerId}/start`)
+export const pauseTimer = (timerId) => api.post(`/tools/timer/${timerId}/pause`)
+export const resetTimer = (timerId) => api.post(`/tools/timer/${timerId}/reset`)
+export const getTimerStatus = (timerId) => api.get(`/tools/timer/${timerId}/status`)
+export const deleteTimer = (timerId) => api.delete(`/tools/timer/${timerId}`)
+export const getActiveTimers = () => api.get('/tools/timer/active')
+export const getTimerHistory = () => api.get('/tools/timer/history')
+
 export default api

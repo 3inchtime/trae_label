@@ -97,6 +97,21 @@
           </svg>
         </div>
       </router-link>
+      
+      <router-link to="/tools/timer" class="tool-card">
+        <div class="tool-icon timer">
+          <Icon name="clock" :size="32" />
+        </div>
+        <div class="tool-info">
+          <h3>在线计时器</h3>
+          <p>创建和管理多个倒计时计时器</p>
+        </div>
+        <div class="tool-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -250,6 +265,11 @@ onMounted(fetchTools)
 .tool-icon.key {
   background: rgba(139, 92, 246, 0.1);
   color: #8b5cf6;
+}
+
+.tool-icon.timer {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--accent-warning);
 }
 
 .tool-info {

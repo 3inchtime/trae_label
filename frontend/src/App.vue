@@ -43,6 +43,14 @@
             <Icon name="money" :size="18" />
             <span>数字转中文</span>
           </router-link>
+          <router-link to="/tools/rsa" class="sidebar-link" :class="{ active: $route.path === '/tools/rsa' }">
+            <Icon name="lock" :size="18" />
+            <span>RSA加密解密</span>
+          </router-link>
+          <router-link to="/tools/timer" class="sidebar-link" :class="{ active: $route.path === '/tools/timer' }">
+            <Icon name="clock" :size="18" />
+            <span>在线计时器</span>
+          </router-link>
         </nav>
       </aside>
       <main class="main-content">

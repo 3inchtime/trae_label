@@ -6,6 +6,7 @@ import JsonTool from '../views/JsonTool.vue'
 import Md5Tool from '../views/Md5Tool.vue'
 import NumberToChinese from '../views/NumberToChinese.vue'
 import RsaTool from '../views/RsaTool.vue'
+import TimerTool from '../views/TimerTool.vue'
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     path: '/tools/rsa',
     name: 'RsaTool',
     component: RsaTool
+  },
+  {
+    path: '/tools/timer',
+    name: 'TimerTool',
+    component: TimerTool
   }
 ]
 

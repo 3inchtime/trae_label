@@ -437,3 +437,188 @@ def rsa_decrypt(request: RsaDecryptRequest):
         plaintext=plaintext,
         ciphertext=request.ciphertext
     )
+
+
+class TimerCreateRequest(BaseModel):
+    name: str
+    duration: int
+
+
+class TimerCreateResponse(BaseModel):
+    id: str
+    name: str
+    duration: int
+    created_at: str
+
+
+class TimerStatusResponse(BaseModel):
+    id: str
+    name: str
+    duration: int
+    remaining: int
+    status: str
+    created_at: str
+
+
+class TimerHistoryItem(BaseModel):
+    id: str
+    name: str
+    duration: int
+    completed_at: str
+
+
+active_timers = {}
+timer_history = []
+
+
+@app.post("/api/tools/timer/create", response_model=TimerCreateResponse)
+def create_timer(request: TimerCreateRequest):
+    import uuid
+    from datetime import datetime
+    
+    timer_id = str(uuid.uuid4())
+    created_at = datetime.now().isoformat()
+    
+    active_timers[timer_id] = {
+        "id": timer_id,
+        "name": request.name,
+        "duration": request.duration,
+        "remaining": request.duration,
+        "status": "pending",
+        "created_at": created_at,
+        "start_time": None
+    }
+    
+    return TimerCreateResponse(
+        id=timer_id,
+        name=request.name,
+        duration=request.duration,
+        created_at=created_at
+    )
+
+
+@app.post("/api/tools/timer/{timer_id}/start")
+def start_timer(timer_id: str):
+    from datetime import datetime
+    
+    if timer_id not in active_timers:
+        raise HTTPException(status_code=404, detail="计时器不存在")
+    
+    timer = active_timers[timer_id]
+    timer["status"] = "running"
+    timer["start_time"] = datetime.now().isoformat()
+    
+    return {"success": True, "message": "计时器已启动"}
+
+
+@app.post("/api/tools/timer/{timer_id}/pause")
+def pause_timer(timer_id: str):
+    from datetime import datetime
+    
+    if timer_id not in active_timers:
+        raise HTTPException(status_code=404, detail="计时器不存在")
+    
+    timer = active_timers[timer_id]
+    if timer["status"] == "running":
+        if timer["start_time"]:
+            elapsed = (datetime.now() - datetime.fromisoformat(timer["start_time"])).total_seconds()
+            timer["remaining"] = max(0, timer["remaining"] - int(elapsed))
+        timer["status"] = "paused"
+    
+    return {"success": True, "message": "计时器已暂停"}
+
+
+@app.post("/api/tools/timer/{timer_id}/reset")
+def reset_timer(timer_id: str):
+    if timer_id not in active_timers:
+        raise HTTPException(status_code=404, detail="计时器不存在")
+    
+    timer = active_timers[timer_id]
+    timer["status"] = "pending"
+    timer["remaining"] = timer["duration"]
+    timer["start_time"] = None
+    
+    return {"success": True, "message": "计时器已重置"}
+
+
+@app.get("/api/tools/timer/{timer_id}/status", response_model=TimerStatusResponse)
+def get_timer_status(timer_id: str):
+    from datetime import datetime
+    
+    if timer_id not in active_timers:
+        raise HTTPException(status_code=404, detail="计时器不存在")
+    
+    timer = active_timers[timer_id]
+    
+    if timer["status"] == "running" and timer["start_time"]:
+        elapsed = (datetime.now() - datetime.fromisoformat(timer["start_time"])).total_seconds()
+        remaining = max(0, timer["remaining"] - int(elapsed))
+        
+        if remaining <= 0:
+            timer["status"] = "completed"
+            timer["remaining"] = 0
+            timer_history.append({
+                "id": timer["id"],
+                "name": timer["name"],
+                "duration": timer["duration"],
+                "completed_at": datetime.now().isoformat()
+            })
+        else:
+            timer["remaining"] = remaining
+    
+    return TimerStatusResponse(
+        id=timer["id"],
+        name=timer["name"],
+        duration=timer["duration"],
+        remaining=timer["remaining"],
+        status=timer["status"],
+        created_at=timer["created_at"]
+    )
+
+
+@app.delete("/api/tools/timer/{timer_id}")
+def delete_timer(timer_id: str):
+    if timer_id not in active_timers:
+        raise HTTPException(status_code=404, detail="计时器不存在")
+    
+    del active_timers[timer_id]
+    return {"success": True, "message": "计时器已删除"}
+
+
+@app.get("/api/tools/timer/active", response_model=List[TimerStatusResponse])
+def get_active_timers():
+    from datetime import datetime
+    
+    result = []
+    for timer_id, timer in active_timers.items():
+        if timer["status"] == "running" and timer["start_time"]:
+            elapsed = (datetime.now() - datetime.fromisoformat(timer["start_time"])).total_seconds()
+            remaining = max(0, timer["remaining"] - int(elapsed))
+            
+            if remaining <= 0:
+                timer["status"] = "completed"
+                timer["remaining"] = 0
+                timer_history.append({
+                    "id": timer["id"],
+                    "name": timer["name"],
+                    "duration": timer["duration"],
+                    "completed_at": datetime.now().isoformat()
+                })
+            else:
+                timer["remaining"] = remaining
+        
+        result.append(TimerStatusResponse(
+            id=timer["id"],
+            name=timer["name"],
+            duration=timer["duration"],
+            remaining=timer["remaining"],
+            status=timer["status"],
+            created_at=timer["created_at"]
+        ))
+    
+    return result
+
+
+@app.get("/api/tools/timer/history", response_model=List[TimerHistoryItem])
+def get_timer_history():
+    return timer_history
