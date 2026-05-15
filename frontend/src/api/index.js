@@ -13,4 +13,7 @@ export const healthCheck = () => api.get('/health')
 export const convertTimestamp = (data) => api.post('/tools/timestamp/convert', data)
 export const getCurrentTimestamp = () => api.get('/tools/timestamp/now')
 
+export const formatJson = (data) => api.post('/tools/json/format', data)
+export const validateJson = (data) => api.post('/tools/json/validate', data)
+
 export default api

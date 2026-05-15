@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Tools from '../views/Tools.vue'
 import TimestampTool from '../views/TimestampTool.vue'
+import JsonTool from '../views/JsonTool.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/tools/timestamp',
     name: 'TimestampTool',
     component: TimestampTool
+  },
+  {
+    path: '/tools/json',
+    name: 'JsonTool',
+    component: JsonTool
   }
 ]
 

@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime
 from pydantic import BaseModel
+import json
 
 from . import models, schemas
 from .database import engine, get_db
@@ -19,6 +20,18 @@ class TimestampConvertResponse(BaseModel):
     timestamp: int
     datetime_str: str
     format: str
+
+
+class JsonFormatRequest(BaseModel):
+    json_str: str
+    indent: Optional[int] = 2
+
+
+class JsonFormatResponse(BaseModel):
+    valid: bool
+    formatted: Optional[str] = None
+    error: Optional[str] = None
+    minified: Optional[str] = None
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -109,3 +122,43 @@ def get_current_timestamp():
         "datetime_str": dt.strftime("%Y-%m-%d %H:%M:%S"),
         "milliseconds": int(dt.timestamp() * 1000)
     }
+
+
+@app.post("/api/tools/json/format", response_model=JsonFormatResponse)
+def format_json(request: JsonFormatRequest):
+    try:
+        parsed = json.loads(request.json_str)
+        formatted = json.dumps(parsed, indent=request.indent, ensure_ascii=False)
+        minified = json.dumps(parsed, separators=(',', ':'), ensure_ascii=False)
+        return JsonFormatResponse(
+            valid=True,
+            formatted=formatted,
+            minified=minified,
+            error=None
+        )
+    except json.JSONDecodeError as e:
+        return JsonFormatResponse(
+            valid=False,
+            formatted=None,
+            minified=None,
+            error=f"JSON解析错误: {str(e)}"
+        )
+
+
+@app.post("/api/tools/json/validate", response_model=JsonFormatResponse)
+def validate_json(request: JsonFormatRequest):
+    try:
+        parsed = json.loads(request.json_str)
+        return JsonFormatResponse(
+            valid=True,
+            formatted=None,
+            minified=None,
+            error=None
+        )
+    except json.JSONDecodeError as e:
+        return JsonFormatResponse(
+            valid=False,
+            formatted=None,
+            minified=None,
+            error=f"JSON解析错误: {str(e)}"
+        )

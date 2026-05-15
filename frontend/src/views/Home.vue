@@ -10,6 +10,11 @@
         <h4>时间戳转换</h4>
         <p>时间戳与日期时间的相互转换，支持快捷时间点</p>
       </router-link>
+      <router-link to="/tools/json" class="tool-card">
+        <div class="tool-icon">📄</div>
+        <h4>JSON格式化</h4>
+        <p>验证JSON格式正确性，支持格式化和压缩功能</p>
+      </router-link>
     </div>
 
     <h3 class="features-title">平台特性</h3>
