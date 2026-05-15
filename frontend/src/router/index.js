@@ -8,6 +8,7 @@ import NumberToChinese from '../views/NumberToChinese.vue'
 import RsaTool from '../views/RsaTool.vue'
 import TimerTool from '../views/TimerTool.vue'
 import WeightConverter from '../views/WeightConverter.vue'
+import TimeDifferenceTool from '../views/TimeDifferenceTool.vue'
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: '/tools/weight',
     name: 'WeightConverter',
     component: WeightConverter
+  },
+  {
+    path: '/tools/time-difference',
+    name: 'TimeDifferenceTool',
+    component: TimeDifferenceTool
   }
 ]
 

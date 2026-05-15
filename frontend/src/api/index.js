@@ -33,5 +33,6 @@ export const getActiveTimers = () => api.get('/tools/timer/active')
 export const getTimerHistory = () => api.get('/tools/timer/history')
 
 export const convertWeight = (data) => api.post('/tools/weight/convert', data)
+export const calculateTimeDifference = (data) => api.post('/tools/time-difference/calculate', data)
 
 export default api

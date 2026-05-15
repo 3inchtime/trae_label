@@ -127,6 +127,21 @@
           </svg>
         </div>
       </router-link>
+      
+      <router-link to="/tools/time-difference" class="tool-card">
+        <div class="tool-icon time-diff">
+          <Icon name="clock" :size="32" />
+        </div>
+        <div class="tool-info">
+          <h3>时间差计算</h3>
+          <p>计算两个时间之间的年、月、日、秒差距</p>
+        </div>
+        <div class="tool-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -290,6 +305,11 @@ onMounted(fetchTools)
 .tool-icon.weight {
   background: rgba(139, 92, 246, 0.1);
   color: #8b5cf6;
+}
+
+.tool-icon.time-diff {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
 }
 
 .tool-info {
