@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Tools from '../views/Tools.vue'
 import TimestampTool from '../views/TimestampTool.vue'
 import JsonTool from '../views/JsonTool.vue'
+import Md5Tool from '../views/Md5Tool.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/tools/json',
     name: 'JsonTool',
     component: JsonTool
+  },
+  {
+    path: '/tools/md5',
+    name: 'Md5Tool',
+    component: Md5Tool
   }
 ]
 

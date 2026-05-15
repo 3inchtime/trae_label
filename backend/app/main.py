@@ -5,6 +5,7 @@ from typing import List, Optional
 from datetime import datetime
 from pydantic import BaseModel
 import json
+import hashlib
 
 from . import models, schemas
 from .database import engine, get_db
@@ -32,6 +33,28 @@ class JsonFormatResponse(BaseModel):
     formatted: Optional[str] = None
     error: Optional[str] = None
     minified: Optional[str] = None
+
+
+class Md5EncryptRequest(BaseModel):
+    text: str
+    uppercase: Optional[bool] = False
+
+
+class Md5EncryptResponse(BaseModel):
+    original_text: str
+    md5_hash: str
+    uppercase: bool
+
+
+class Md5CompareRequest(BaseModel):
+    text: str
+    md5_hash: str
+
+
+class Md5CompareResponse(BaseModel):
+    match: bool
+    original_text: str
+    provided_hash: str
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -162,3 +185,40 @@ def validate_json(request: JsonFormatRequest):
             minified=None,
             error=f"JSON解析错误: {str(e)}"
         )
+
+
+@app.post("/api/tools/md5/encrypt", response_model=Md5EncryptResponse)
+def md5_encrypt(request: Md5EncryptRequest):
+    if not request.text:
+        raise HTTPException(status_code=400, detail="请输入要加密的文本")
+    
+    md5 = hashlib.md5()
+    md5.update(request.text.encode('utf-8'))
+    md5_hash = md5.hexdigest()
+    
+    if request.uppercase:
+        md5_hash = md5_hash.upper()
+    
+    return Md5EncryptResponse(
+        original_text=request.text,
+        md5_hash=md5_hash,
+        uppercase=request.uppercase
+    )
+
+
+@app.post("/api/tools/md5/compare", response_model=Md5CompareResponse)
+def md5_compare(request: Md5CompareRequest):
+    if not request.text or not request.md5_hash:
+        raise HTTPException(status_code=400, detail="请输入文本和MD5哈希值")
+    
+    md5 = hashlib.md5()
+    md5.update(request.text.encode('utf-8'))
+    calculated_hash = md5.hexdigest()
+    
+    match = calculated_hash.lower() == request.md5_hash.lower()
+    
+    return Md5CompareResponse(
+        match=match,
+        original_text=request.text,
+        provided_hash=request.md5_hash
+    )
