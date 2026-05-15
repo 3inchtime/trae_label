@@ -82,6 +82,21 @@
           </svg>
         </div>
       </router-link>
+      
+      <router-link to="/tools/rsa" class="tool-card">
+        <div class="tool-icon key">
+          <Icon name="lock" :size="32" />
+        </div>
+        <div class="tool-info">
+          <h3>RSA加密解密</h3>
+          <p>生成密钥对，使用公钥加密、私钥解密</p>
+        </div>
+        <div class="tool-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -230,6 +245,11 @@ onMounted(fetchTools)
 .tool-icon.money {
   background: rgba(245, 158, 11, 0.1);
   color: var(--accent-warning);
+}
+
+.tool-icon.key {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
 }
 
 .tool-info {
