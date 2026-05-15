@@ -7,6 +7,7 @@ import Md5Tool from '../views/Md5Tool.vue'
 import NumberToChinese from '../views/NumberToChinese.vue'
 import RsaTool from '../views/RsaTool.vue'
 import TimerTool from '../views/TimerTool.vue'
+import WeightConverter from '../views/WeightConverter.vue'
 
 const routes = [
   {
@@ -48,6 +49,11 @@ const routes = [
     path: '/tools/timer',
     name: 'TimerTool',
     component: TimerTool
+  },
+  {
+    path: '/tools/weight',
+    name: 'WeightConverter',
+    component: WeightConverter
   }
 ]
 

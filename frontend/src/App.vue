@@ -51,6 +51,10 @@
             <Icon name="clock" :size="18" />
             <span>在线计时器</span>
           </router-link>
+          <router-link to="/tools/weight" class="sidebar-link" :class="{ active: $route.path === '/tools/weight' }">
+            <Icon name="box" :size="18" />
+            <span>重量单位换算</span>
+          </router-link>
         </nav>
       </aside>
       <main class="main-content">

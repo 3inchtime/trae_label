@@ -95,6 +95,21 @@
             </svg>
           </div>
         </router-link>
+        
+        <router-link to="/tools/weight" class="tool-card">
+          <div class="tool-icon-wrapper weight">
+            <Icon name="box" :size="28" />
+          </div>
+          <div class="tool-content">
+            <h3>重量单位换算</h3>
+            <p>支持克、千克、吨、磅、盎司、斤、两等多种重量单位的相互转换</p>
+          </div>
+          <div class="tool-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -187,6 +202,11 @@ import Icon from '../components/Icon.vue'
 .tool-icon-wrapper.timer {
   background: rgba(245, 158, 11, 0.1);
   color: var(--accent-warning);
+}
+
+.tool-icon-wrapper.weight {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
 }
 
 .tool-content {
