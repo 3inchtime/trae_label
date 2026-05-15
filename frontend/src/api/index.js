@@ -19,4 +19,8 @@ export const md5Encrypt = (data) => api.post('/tools/md5/encrypt', data)
 export const md5Compare = (data) => api.post('/tools/md5/compare', data)
 export const convertNumberToChinese = (data) => api.post('/tools/number-to-chinese', data)
 
+export const generateRsaKeys = (data) => api.post('/tools/rsa/generate-keys', data)
+export const rsaEncrypt = (data) => api.post('/tools/rsa/encrypt', data)
+export const rsaDecrypt = (data) => api.post('/tools/rsa/decrypt', data)
+
 export default api

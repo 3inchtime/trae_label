@@ -5,6 +5,7 @@ import TimestampTool from '../views/TimestampTool.vue'
 import JsonTool from '../views/JsonTool.vue'
 import Md5Tool from '../views/Md5Tool.vue'
 import NumberToChinese from '../views/NumberToChinese.vue'
+import RsaTool from '../views/RsaTool.vue'
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/tools/number-to-chinese',
     name: 'NumberToChinese',
     component: NumberToChinese
+  },
+  {
+    path: '/tools/rsa',
+    name: 'RsaTool',
+    component: RsaTool
   }
 ]
 
