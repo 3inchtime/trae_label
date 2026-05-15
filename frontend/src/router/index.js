@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Tools from '../views/Tools.vue'
 import TimestampTool from '../views/TimestampTool.vue'
+import Md5Tool from '../views/Md5Tool.vue'
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/tools/timestamp',
     name: 'TimestampTool',
     component: TimestampTool
+  },
+  {
+    path: '/tools/md5',
+    name: 'Md5Tool',
+    component: Md5Tool
   }
 ]
 

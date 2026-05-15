@@ -10,6 +10,11 @@
         <h4>时间戳转换</h4>
         <p>时间戳与日期时间的相互转换，支持快捷时间点</p>
       </router-link>
+      <router-link to="/tools/md5" class="tool-card">
+        <div class="tool-icon">🔐</div>
+        <h4>MD5 加密</h4>
+        <p>文本MD5哈希加密与对比验证工具</p>
+      </router-link>
     </div>
 
     <h3 class="features-title">平台特性</h3>
