@@ -20,6 +20,11 @@
         <h4>MD5 加密</h4>
         <p>文本MD5哈希加密与对比验证工具</p>
       </router-link>
+      <router-link to="/tools/number-to-chinese" class="tool-card">
+        <div class="tool-icon">💰</div>
+        <h4>数字转中文大写</h4>
+        <p>将数字金额转换为标准中文大写金额，支持小数和负数</p>
+      </router-link>
     </div>
 
     <h3 class="features-title">平台特性</h3>

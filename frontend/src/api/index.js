@@ -17,5 +17,6 @@ export const formatJson = (data) => api.post('/tools/json/format', data)
 export const validateJson = (data) => api.post('/tools/json/validate', data)
 export const md5Encrypt = (data) => api.post('/tools/md5/encrypt', data)
 export const md5Compare = (data) => api.post('/tools/md5/compare', data)
+export const convertNumberToChinese = (data) => api.post('/tools/number-to-chinese', data)
 
 export default api
