@@ -1,30 +1,55 @@
 <template>
   <div class="timestamp-tool">
-    <h2>⏰ 时间戳转换工具</h2>
+    <div class="page-header">
+      <div class="page-icon">
+        <Icon name="clock" :size="28" />
+      </div>
+      <div class="page-title">
+        <h1>时间戳转换工具</h1>
+        <p>时间戳与日期时间的相互转换，支持快捷时间点选择</p>
+      </div>
+    </div>
     
-    <div class="current-time">
-      <h3>当前时间</h3>
+    <div class="card current-time-card">
+      <div class="card-header">
+        <h2>当前时间</h2>
+        <button @click="refreshCurrentTime" class="btn-secondary btn-sm">
+          <Icon name="refresh" :size="16" />
+          <span>刷新</span>
+        </button>
+      </div>
       <div class="time-display">
         <div class="time-item">
-          <label>时间戳 (秒):</label>
-          <span>{{ currentData.timestamp }}</span>
-          <button @click="copyToClipboard(currentData.timestamp)" class="copy-btn">复制</button>
+          <span class="time-label">时间戳 (秒)</span>
+          <div class="time-value-wrapper">
+            <span class="time-value">{{ currentData.timestamp }}</span>
+            <button @click="copyToClipboard(currentData.timestamp)" class="copy-btn" title="复制">
+              <Icon name="copy" :size="16" />
+            </button>
+          </div>
         </div>
         <div class="time-item">
-          <label>时间戳 (毫秒):</label>
-          <span>{{ currentData.milliseconds }}</span>
-          <button @click="copyToClipboard(currentData.milliseconds)" class="copy-btn">复制</button>
+          <span class="time-label">时间戳 (毫秒)</span>
+          <div class="time-value-wrapper">
+            <span class="time-value">{{ currentData.milliseconds }}</span>
+            <button @click="copyToClipboard(currentData.milliseconds)" class="copy-btn" title="复制">
+              <Icon name="copy" :size="16" />
+            </button>
+          </div>
         </div>
         <div class="time-item">
-          <label>格式化时间:</label>
-          <span>{{ currentData.datetime_str }}</span>
+          <span class="time-label">格式化时间</span>
+          <div class="time-value-wrapper">
+            <span class="time-value formatted">{{ currentData.datetime_str }}</span>
+          </div>
         </div>
       </div>
-      <button @click="refreshCurrentTime" class="refresh-btn">🔄 刷新</button>
     </div>
 
-    <div class="converter-section">
-      <h3>时间戳转时间</h3>
+    <div class="card">
+      <div class="card-header">
+        <h2>时间戳转时间</h2>
+      </div>
       <div class="input-group">
         <input
           v-model.number="timestampInput"
@@ -32,16 +57,23 @@
           placeholder="输入时间戳 (秒)"
           class="input-field"
         />
-        <button @click="convertFromTimestamp" class="convert-btn">转换</button>
+        <button @click="convertFromTimestamp" class="btn-primary">转换</button>
       </div>
-      <div v-if="timestampResult" class="result">
-        <p>转换结果: <strong>{{ timestampResult }}</strong></p>
-        <button @click="copyToClipboard(timestampResult)" class="copy-btn">复制</button>
+      <div v-if="timestampResult" class="result-box success">
+        <div class="result-content">
+          <span class="result-label">转换结果</span>
+          <span class="result-value">{{ timestampResult }}</span>
+        </div>
+        <button @click="copyToClipboard(timestampResult)" class="copy-btn" title="复制">
+          <Icon name="copy" :size="18" />
+        </button>
       </div>
     </div>
 
-    <div class="converter-section">
-      <h3>时间转时间戳</h3>
+    <div class="card">
+      <div class="card-header">
+        <h2>时间转时间戳</h2>
+      </div>
       <div class="input-group">
         <input
           v-model="datetimeInput"
@@ -49,32 +81,46 @@
           placeholder="格式: 2024-01-01 12:00:00"
           class="input-field"
         />
-        <button @click="convertToTimestamp" class="convert-btn">转换</button>
+        <button @click="convertToTimestamp" class="btn-primary">转换</button>
       </div>
-      <div v-if="datetimeResult" class="result">
-        <p>转换结果 (秒): <strong>{{ datetimeResult }}</strong></p>
-        <button @click="copyToClipboard(datetimeResult)" class="copy-btn">复制</button>
+      <div v-if="datetimeResult" class="result-box success">
+        <div class="result-content">
+          <span class="result-label">转换结果 (秒)</span>
+          <span class="result-value">{{ datetimeResult }}</span>
+        </div>
+        <button @click="copyToClipboard(datetimeResult)" class="copy-btn" title="复制">
+          <Icon name="copy" :size="18" />
+        </button>
       </div>
     </div>
 
-    <div class="quick-timestamps">
-      <h3>快捷时间戳</h3>
+    <div class="card">
+      <div class="card-header">
+        <h2>快捷时间戳</h2>
+      </div>
       <div class="quick-buttons">
-        <button @click="setQuickTimestamp(0)">今天 00:00</button>
-        <button @click="setQuickTimestamp(1)">今天 12:00</button>
-        <button @click="setQuickTimestamp(2)">明天 00:00</button>
-        <button @click="setQuickTimestamp(3)">本周一 00:00</button>
+        <button @click="setQuickTimestamp(0)" class="btn-secondary">今天 00:00</button>
+        <button @click="setQuickTimestamp(1)" class="btn-secondary">今天 12:00</button>
+        <button @click="setQuickTimestamp(2)" class="btn-secondary">明天 00:00</button>
+        <button @click="setQuickTimestamp(3)" class="btn-secondary">本周一 00:00</button>
       </div>
     </div>
 
-    <div v-if="error" class="error-message">{{ error }}</div>
-    <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
+    <div v-if="error" class="alert alert-error">
+      <Icon name="error" :size="20" />
+      <span>{{ error }}</span>
+    </div>
+    <div v-if="successMessage" class="alert alert-success">
+      <Icon name="check" :size="20" />
+      <span>{{ successMessage }}</span>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { convertTimestamp, getCurrentTimestamp } from '../api'
+import Icon from '../components/Icon.vue'
 
 const currentData = ref({
   timestamp: 0,
@@ -94,15 +140,13 @@ const refreshCurrentTime = async () => {
     const response = await getCurrentTimestamp()
     currentData.value = response.data
   } catch (err) {
-    error.value = '获取当前时间失败'
-    setTimeout(() => error.value = '', 3000)
+    showError('获取当前时间失败')
   }
 }
 
 const convertFromTimestamp = async () => {
   if (!timestampInput.value) {
-    error.value = '请输入时间戳'
-    setTimeout(() => error.value = '', 3000)
+    showError('请输入时间戳')
     return
   }
   try {
@@ -113,15 +157,13 @@ const convertFromTimestamp = async () => {
     timestampResult.value = response.data.datetime_str
     datetimeResult.value = null
   } catch (err) {
-    error.value = '转换失败'
-    setTimeout(() => error.value = '', 3000)
+    showError('转换失败')
   }
 }
 
 const convertToTimestamp = async () => {
   if (!datetimeInput.value) {
-    error.value = '请输入时间'
-    setTimeout(() => error.value = '', 3000)
+    showError('请输入时间')
     return
   }
   try {
@@ -132,8 +174,7 @@ const convertToTimestamp = async () => {
     datetimeResult.value = response.data.timestamp
     timestampResult.value = ''
   } catch (err) {
-    error.value = err.response?.data?.detail || '转换失败，请检查时间格式'
-    setTimeout(() => error.value = '', 3000)
+    showError(err.response?.data?.detail || '转换失败，请检查时间格式')
   }
 }
 
@@ -166,9 +207,18 @@ const setQuickTimestamp = (type) => {
 
 const copyToClipboard = (text) => {
   navigator.clipboard.writeText(String(text)).then(() => {
-    successMessage.value = '已复制到剪贴板'
-    setTimeout(() => successMessage.value = '', 2000)
+    showSuccess('已复制到剪贴板')
   })
+}
+
+const showError = (msg) => {
+  error.value = msg
+  setTimeout(() => error.value = '', 3000)
+}
+
+const showSuccess = (msg) => {
+  successMessage.value = msg
+  setTimeout(() => successMessage.value = '', 2000)
 }
 
 onMounted(() => {
@@ -178,222 +228,247 @@ onMounted(() => {
 
 <style scoped>
 .timestamp-tool {
+  width: 100%;
   max-width: 800px;
   margin: 0 auto;
 }
 
-h2 {
-  font-size: 2rem;
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 2rem;
-  color: var(--text-primary);
-  transition: color 0.3s;
 }
 
-.current-time {
+.page-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-title h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.page-title p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.card {
   background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: background 0.3s, box-shadow 0.3s;
+  margin-bottom: 1.25rem;
+  transition: all var(--transition-normal);
 }
 
-.current-time h3 {
-  margin-bottom: 1rem;
+.card:hover {
+  border-color: var(--border-medium);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.card-header h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
   color: var(--text-primary);
-  transition: color 0.3s;
+  margin: 0;
+}
+
+.btn-sm {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  gap: 0.375rem;
 }
 
 .time-display {
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .time-item {
   display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.time-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.time-value-wrapper {
+  display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
-  flex-wrap: wrap;
 }
 
-.time-item label {
-  font-weight: 500;
-  min-width: 120px;
-  color: var(--text-secondary);
-  transition: color 0.3s;
-}
-
-.time-item span {
-  font-family: monospace;
-  font-size: 1.1rem;
-  color: var(--accent);
+.time-value {
+  flex: 1;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 1.125rem;
   font-weight: 600;
-  transition: color 0.3s;
+  color: var(--accent-primary);
+  padding: 0.75rem 1rem;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+}
+
+.time-value.formatted {
+  color: var(--text-primary);
 }
 
 .copy-btn {
-  padding: 0.25rem 0.75rem;
-  background: var(--btn-bg);
+  padding: 0.5rem;
+  background: var(--bg-tertiary);
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 0.85rem;
-  transition: background 0.2s, color 0.2s;
-  color: var(--btn-text);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .copy-btn:hover {
-  background: var(--btn-bg-hover);
-}
-
-.refresh-btn {
-  padding: 0.5rem 1rem;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.2s;
-}
-
-.refresh-btn:hover {
-  background: var(--accent-hover);
-}
-
-.converter-section {
-  background: var(--bg-secondary);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
-.converter-section h3 {
-  margin-bottom: 1rem;
+  background: var(--border-medium);
   color: var(--text-primary);
-  transition: color 0.3s;
 }
 
 .input-group {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
 }
 
 .input-field {
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 2px solid var(--input-border);
-  border-radius: 4px;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
   font-size: 1rem;
-  transition: border-color 0.2s, background-color 0.3s, color 0.3s;
-  background-color: var(--input-bg);
-  color: var(--input-text);
+  transition: all var(--transition-normal);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: inherit;
 }
 
 .input-field::placeholder {
-  color: var(--input-placeholder);
+  color: var(--text-tertiary);
 }
 
 .input-field:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
-.convert-btn {
-  padding: 0.75rem 1.5rem;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-
-.convert-btn:hover {
-  background: var(--accent-hover);
-}
-
-.result {
+.result-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
-  padding: 0.75rem;
-  background: var(--result-bg);
-  border-radius: 4px;
-  transition: background 0.3s;
 }
 
-.result p {
-  margin: 0;
+.result-box.success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   flex: 1;
-  color: var(--text-primary);
-  transition: color 0.3s;
+  min-width: 0;
 }
 
-.result strong {
-  color: var(--accent);
-  font-family: monospace;
-  font-size: 1.1rem;
-  transition: color 0.3s;
+.result-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
-.quick-timestamps {
-  background: var(--bg-secondary);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
-.quick-timestamps h3 {
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-  transition: color 0.3s;
+.result-value {
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--accent-success);
+  word-break: break-all;
 }
 
 .quick-buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 0.75rem;
 }
 
 .quick-buttons button {
-  padding: 0.75rem;
-  background: var(--btn-bg);
-  color: var(--text-primary);
+  padding: 0.75rem 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   font-size: 0.9rem;
-  transition: all 0.2s;
+  font-weight: 500;
+  transition: all var(--transition-normal);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
 }
 
 .quick-buttons button:hover {
-  background: var(--accent);
+  background: var(--accent-primary);
   color: white;
 }
 
-.error-message {
-  background: var(--error-bg);
-  color: var(--error-text);
+.alert {
   padding: 1rem;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   margin-top: 1rem;
-  transition: background 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
 }
 
-.success-message {
-  background: var(--success-bg);
-  color: var(--success-text);
-  padding: 1rem;
-  border-radius: 4px;
-  margin-top: 1rem;
-  transition: background 0.3s, color 0.3s;
+.alert-error {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--accent-error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+@media (max-width: 640px) {
+  .input-group {
+    flex-direction: column;
+  }
+  
+  .quick-buttons {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 </style>

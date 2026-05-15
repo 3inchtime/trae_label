@@ -1,15 +1,31 @@
 <template>
   <div id="app" :class="{ dark: isDark }">
-    <nav>
-      <h1>便携工具平台</h1>
-      <router-link to="/">首页</router-link>
-      <router-link to="/tools/timestamp">⏰ 时间戳转换</router-link>
-      <router-link to="/tools">工具列表</router-link>
-      <button @click="toggleDarkMode" class="theme-toggle-btn">
-        {{ isDark ? '☀️ 浅色' : '🌙 深色' }}
-      </button>
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <Icon name="tools" :size="24" />
+          <span>便携工具平台</span>
+        </div>
+        <div class="nav-links">
+          <router-link to="/" class="nav-link" :class="{ active: $route.path === '/' }">
+            <Icon name="home" :size="18" />
+            <span>首页</span>
+          </router-link>
+          <router-link to="/tools/timestamp" class="nav-link" :class="{ active: $route.path === '/tools/timestamp' }">
+            <Icon name="clock" :size="18" />
+            <span>时间戳</span>
+          </router-link>
+          <router-link to="/tools" class="nav-link" :class="{ active: $route.path === '/tools' }">
+            <Icon name="tools" :size="18" />
+            <span>工具列表</span>
+          </router-link>
+        </div>
+        <button @click="toggleDarkMode" class="theme-toggle" :title="isDark ? '切换到浅色模式' : '切换到深色模式'">
+          <Icon :name="isDark ? 'sun' : 'moon'" :size="20" />
+        </button>
+      </div>
     </nav>
-    <main>
+    <main class="main-content">
       <router-view />
     </main>
   </div>
@@ -17,6 +33,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import Icon from './components/Icon.vue'
 
 const isDark = ref(false)
 
@@ -47,52 +64,110 @@ watch(isDark, (newValue) => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  transition: background 0.3s;
 }
 
-nav {
-  background: var(--accent);
-  padding: 1rem 2rem;
+.navbar {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all var(--transition-slow);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 64px;
   display: flex;
   align-items: center;
   gap: 2rem;
-  transition: background 0.3s;
 }
 
-nav h1 {
-  color: white;
-  margin: 0;
-  font-size: 1.5rem;
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  flex-shrink: 0;
 }
 
-nav a {
-  color: white;
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
   text-decoration: none;
   font-weight: 500;
+  font-size: 0.95rem;
+  transition: all var(--transition-normal);
 }
 
-nav a:hover {
-  text-decoration: underline;
+.nav-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
 }
 
-.theme-toggle-btn {
-  margin-left: auto;
-  padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  border-radius: 4px;
+.nav-link.active {
+  color: var(--accent-primary);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.theme-toggle {
+  padding: 0.5rem;
+  background: var(--bg-tertiary);
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.2s;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.theme-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+.theme-toggle:hover {
+  background: var(--border-medium);
+  color: var(--text-primary);
 }
 
-main {
+.main-content {
   flex: 1;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+  
+  .nav-brand span {
+    display: none;
+  }
+  
+  .nav-link span {
+    display: none;
+  }
+  
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
 }
 </style>

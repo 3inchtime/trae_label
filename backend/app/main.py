@@ -122,6 +122,8 @@ def number_to_chinese(num):
         result += '整'
     
     return result
+
+
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="便携工具平台 API", version="1.0.0")

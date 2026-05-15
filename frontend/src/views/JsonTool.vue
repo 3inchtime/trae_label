@@ -1,9 +1,19 @@
 <template>
   <div class="json-tool">
-    <h2>📄 JSON格式化工具</h2>
+    <div class="page-header">
+      <div class="page-icon">
+        <Icon name="json" :size="28" />
+      </div>
+      <div class="page-title">
+        <h1>JSON 格式化工具</h1>
+        <p>验证JSON格式正确性，支持格式化、压缩和示例加载</p>
+      </div>
+    </div>
     
-    <div class="input-section">
-      <h3>输入JSON</h3>
+    <div class="card">
+      <div class="card-header">
+        <h2>输入JSON</h2>
+      </div>
       <textarea
         v-model="jsonInput"
         placeholder="在此粘贴或输入JSON字符串..."
@@ -11,53 +21,79 @@
         rows="12"
       ></textarea>
       <div class="button-group">
-        <button @click="validateJson" class="btn validate-btn">🔍 验证</button>
-        <button @click="formatJson" class="btn format-btn">✨ 格式化</button>
-        <button @click="minifyJson" class="btn minify-btn">📦 压缩</button>
-        <button @click="clearAll" class="btn clear-btn">🗑️ 清空</button>
+        <button @click="handleValidate" class="btn-secondary">
+          <Icon name="search" :size="18" />
+          <span>验证</span>
+        </button>
+        <button @click="handleFormat" class="btn-primary">
+          <Icon name="star" :size="18" />
+          <span>格式化</span>
+        </button>
+        <button @click="handleMinify" class="btn-warning">
+          <Icon name="box" :size="18" />
+          <span>压缩</span>
+        </button>
+        <button @click="clearAll" class="btn-error">
+          <Icon name="trash" :size="18" />
+          <span>清空</span>
+        </button>
       </div>
     </div>
 
-    <div v-if="validationResult !== null" class="result-section">
-      <h3>验证结果</h3>
-      <div :class="validationResult.valid ? 'valid-result' : 'error-result'">
-        <span v-if="validationResult.valid">✅ JSON格式正确</span>
-        <span v-else>❌ {{ validationResult.error }}</span>
+    <div v-if="validationResult !== null" class="card">
+      <div class="card-header">
+        <h2>验证结果</h2>
+      </div>
+      <div :class="validationResult.valid ? 'result-valid' : 'result-error'">
+        <Icon :name="validationResult.valid ? 'check' : 'error'" :size="20" />
+        <span>{{ validationResult.valid ? 'JSON 格式正确' : validationResult.error }}</span>
       </div>
     </div>
 
-    <div v-if="formattedJson" class="result-section">
-      <div class="result-header">
-        <h3>格式化结果</h3>
-        <button @click="copyToClipboard(formattedJson)" class="copy-btn">复制</button>
+    <div v-if="formattedJson" class="card">
+      <div class="card-header">
+        <h2>格式化结果</h2>
+        <button @click="copyToClipboard(formattedJson)" class="btn-secondary btn-sm">
+          <Icon name="copy" :size="16" />
+          <span>复制</span>
+        </button>
       </div>
       <pre class="json-output">{{ formattedJson }}</pre>
     </div>
 
-    <div v-if="minifiedJson" class="result-section">
-      <div class="result-header">
-        <h3>压缩结果</h3>
-        <button @click="copyToClipboard(minifiedJson)" class="copy-btn">复制</button>
+    <div v-if="minifiedJson" class="card">
+      <div class="card-header">
+        <h2>压缩结果</h2>
+        <button @click="copyToClipboard(minifiedJson)" class="btn-secondary btn-sm">
+          <Icon name="copy" :size="16" />
+          <span>复制</span>
+        </button>
       </div>
       <pre class="json-output minified">{{ minifiedJson }}</pre>
     </div>
 
-    <div class="sample-section">
-      <h3>示例JSON</h3>
+    <div class="card">
+      <div class="card-header">
+        <h2>示例JSON</h2>
+      </div>
       <div class="sample-buttons">
-        <button @click="loadSample(1)" class="sample-btn">示例1: 简单对象</button>
-        <button @click="loadSample(2)" class="sample-btn">示例2: 数组</button>
-        <button @click="loadSample(3)" class="sample-btn">示例3: 复杂嵌套</button>
+        <button @click="loadSample(1)" class="btn-secondary">示例1: 简单对象</button>
+        <button @click="loadSample(2)" class="btn-secondary">示例2: 数组</button>
+        <button @click="loadSample(3)" class="btn-secondary">示例3: 复杂嵌套</button>
       </div>
     </div>
 
-    <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
+    <div v-if="successMessage" class="alert alert-success">
+      <Icon name="check" :size="20" />
+      <span>{{ successMessage }}</span>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { formatJson as formatJsonApi, validateJson as validateJsonApi } from '../api'
+import { formatJson, validateJson } from '../api'
+import Icon from '../components/Icon.vue'
 
 const jsonInput = ref('')
 const formattedJson = ref('')
@@ -65,13 +101,13 @@ const minifiedJson = ref('')
 const validationResult = ref(null)
 const successMessage = ref('')
 
-const validateJson = async () => {
+const handleValidate = async () => {
   if (!jsonInput.value.trim()) {
     validationResult.value = { valid: false, error: '请输入JSON字符串' }
     return
   }
   try {
-    const response = await validateJsonApi({ json_str: jsonInput.value })
+    const response = await validateJson({ json_str: jsonInput.value })
     validationResult.value = response.data
     if (!response.data.valid) {
       formattedJson.value = ''
@@ -82,13 +118,13 @@ const validateJson = async () => {
   }
 }
 
-const formatJson = async () => {
+const handleFormat = async () => {
   if (!jsonInput.value.trim()) {
     validationResult.value = { valid: false, error: '请输入JSON字符串' }
     return
   }
   try {
-    const response = await formatJsonApi({ json_str: jsonInput.value, indent: 2 })
+    const response = await formatJson({ json_str: jsonInput.value, indent: 2 })
     validationResult.value = response.data
     if (response.data.valid) {
       formattedJson.value = response.data.formatted
@@ -102,13 +138,13 @@ const formatJson = async () => {
   }
 }
 
-const minifyJson = async () => {
+const handleMinify = async () => {
   if (!jsonInput.value.trim()) {
     validationResult.value = { valid: false, error: '请输入JSON字符串' }
     return
   }
   try {
-    const response = await formatJsonApi({ json_str: jsonInput.value, indent: 0 })
+    const response = await formatJson({ json_str: jsonInput.value, indent: 0 })
     validationResult.value = response.data
     if (response.data.valid) {
       minifiedJson.value = response.data.minified
@@ -151,46 +187,97 @@ const copyToClipboard = (text) => {
 
 <style scoped>
 .json-tool {
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
 }
 
-h2 {
-  font-size: 2rem;
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 2rem;
-  color: #2c3e50;
 }
 
-.input-section,
-.result-section,
-.sample-section {
-  background: white;
+.page-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--accent-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-title h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.page-title p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 1.25rem;
+  transition: all var(--transition-normal);
 }
 
-h3 {
+.card:hover {
+  border-color: var(--border-medium);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
-  color: #2c3e50;
-  font-size: 1.2rem;
+}
+
+.card-header h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.btn-sm {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  gap: 0.375rem;
 }
 
 .json-textarea {
   width: 100%;
   padding: 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 4px;
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
   font-family: 'Monaco', 'Menlo', monospace;
   font-size: 0.9rem;
   resize: vertical;
-  transition: border-color 0.2s;
+  transition: all var(--transition-normal);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  min-height: 200px;
+}
+
+.json-textarea::placeholder {
+  color: var(--text-tertiary);
 }
 
 .json-textarea:focus {
   outline: none;
-  border-color: #42b983;
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 .button-group {
@@ -200,81 +287,32 @@ h3 {
   flex-wrap: wrap;
 }
 
-.btn {
-  padding: 0.75rem 1.25rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.95rem;
+.result-valid,
+.result-error {
+  padding: 1rem;
+  border-radius: var(--radius-md);
   font-weight: 500;
-  transition: all 0.2s;
-}
-
-.validate-btn {
-  background: #3498db;
-  color: white;
-}
-
-.validate-btn:hover {
-  background: #2980b9;
-}
-
-.format-btn {
-  background: #42b983;
-  color: white;
-}
-
-.format-btn:hover {
-  background: #3aa876;
-}
-
-.minify-btn {
-  background: #f39c12;
-  color: white;
-}
-
-.minify-btn:hover {
-  background: #e67e22;
-}
-
-.clear-btn {
-  background: #e74c3c;
-  color: white;
-}
-
-.clear-btn:hover {
-  background: #c0392b;
-}
-
-.result-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
 }
 
-.result-header h3 {
-  margin: 0;
+.result-valid {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
-.copy-btn {
-  padding: 0.5rem 1rem;
-  background: #ecf0f1;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background 0.2s;
-}
-
-.copy-btn:hover {
-  background: #d5dbdb;
+.result-error {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--accent-error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .json-output {
-  background: #f8f9fa;
+  background: var(--bg-tertiary);
   padding: 1rem;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   font-family: 'Monaco', 'Menlo', monospace;
   font-size: 0.9rem;
   white-space: pre-wrap;
@@ -282,27 +320,11 @@ h3 {
   max-height: 400px;
   overflow-y: auto;
   margin: 0;
+  color: var(--text-primary);
 }
 
 .json-output.minified {
-  color: #e74c3c;
-}
-
-.valid-result,
-.error-result {
-  padding: 1rem;
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.valid-result {
-  background: #efe;
-  color: #3c3;
-}
-
-.error-result {
-  background: #fee;
-  color: #c33;
+  color: var(--accent-error);
 }
 
 .sample-buttons {
@@ -311,27 +333,30 @@ h3 {
   flex-wrap: wrap;
 }
 
-.sample-btn {
-  padding: 0.5rem 1rem;
-  background: #ecf0f1;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.2s;
-}
-
-.sample-btn:hover {
-  background: #42b983;
-  color: white;
-}
-
-.success-message {
-  background: #efe;
-  color: #3c3;
+.alert {
   padding: 1rem;
-  border-radius: 4px;
-  text-align: center;
+  border-radius: var(--radius-md);
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   font-weight: 500;
+}
+
+.alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+@media (max-width: 640px) {
+  .button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .sample-buttons {
+    flex-direction: column;
+  }
 }
 </style>

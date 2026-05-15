@@ -1,145 +1,326 @@
 <template>
   <div class="home">
-    <h2>欢迎使用便携工具平台</h2>
-    <p>这是一个前后端分离的工具平台，集成了多个实用工具。</p>
+    <div class="hero-section">
+      <h1 class="hero-title">欢迎使用便携工具平台</h1>
+      <p class="hero-subtitle">集成多个实用工具，提升工作效率，让开发更简单</p>
+    </div>
     
-    <h3 class="tools-title">可用工具</h3>
-    <div class="tools-grid">
-      <router-link to="/tools/timestamp" class="tool-card">
-        <div class="tool-icon">⏰</div>
-        <h4>时间戳转换</h4>
-        <p>时间戳与日期时间的相互转换，支持快捷时间点</p>
-      </router-link>
-      <router-link to="/tools/json" class="tool-card">
-        <div class="tool-icon">📄</div>
-        <h4>JSON格式化</h4>
-        <p>验证JSON格式正确性，支持格式化和压缩功能</p>
-      </router-link>
-      <router-link to="/tools/md5" class="tool-card">
-        <div class="tool-icon">🔐</div>
-        <h4>MD5 加密</h4>
-        <p>文本MD5哈希加密与对比验证工具</p>
-      </router-link>
-      <router-link to="/tools/number-to-chinese" class="tool-card">
-        <div class="tool-icon">💰</div>
-        <h4>数字转中文大写</h4>
-        <p>将数字金额转换为标准中文大写金额，支持小数和负数</p>
-      </router-link>
+    <div class="section">
+      <h2 class="section-header">
+        <Icon name="tools" :size="24" />
+        <span>可用工具</span>
+      </h2>
+      <div class="tools-grid">
+        <router-link to="/tools/timestamp" class="tool-card">
+          <div class="tool-icon-wrapper clock">
+            <Icon name="clock" :size="28" />
+          </div>
+          <div class="tool-content">
+            <h3>时间戳转换</h3>
+            <p>时间戳与日期时间的相互转换，支持快捷时间点</p>
+          </div>
+          <div class="tool-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </router-link>
+        
+        <router-link to="/tools/json" class="tool-card">
+          <div class="tool-icon-wrapper json">
+            <Icon name="json" :size="28" />
+          </div>
+          <div class="tool-content">
+            <h3>JSON格式化</h3>
+            <p>验证JSON格式正确性，支持格式化和压缩功能</p>
+          </div>
+          <div class="tool-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </router-link>
+        
+        <router-link to="/tools/md5" class="tool-card">
+          <div class="tool-icon-wrapper lock">
+            <Icon name="lock" :size="28" />
+          </div>
+          <div class="tool-content">
+            <h3>MD5 加密</h3>
+            <p>文本MD5哈希加密与对比验证工具</p>
+          </div>
+          <div class="tool-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </router-link>
+        
+        <router-link to="/tools/number-to-chinese" class="tool-card">
+          <div class="tool-icon-wrapper money">
+            <Icon name="money" :size="28" />
+          </div>
+          <div class="tool-content">
+            <h3>数字转中文大写</h3>
+            <p>将数字金额转换为标准中文大写金额，支持小数和负数</p>
+          </div>
+          <div class="tool-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </router-link>
+      </div>
     </div>
 
-    <h3 class="features-title">平台特性</h3>
-    <div class="features">
-      <div class="feature-card">
-        <h3>🚀 快速开发</h3>
-        <p>基于 FastAPI + Vue 3 构建，开发效率高</p>
-      </div>
-      <div class="feature-card">
-        <h3>💾 轻量数据库</h3>
-        <p>使用 SQLite，无需额外配置</p>
-      </div>
-      <div class="feature-card">
-        <h3>🔧 工具扩展</h3>
-        <p>轻松添加新的便携工具</p>
+    <div class="section">
+      <h2 class="section-header">
+        <Icon name="star" :size="24" />
+        <span>平台特性</span>
+      </h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon rocket">
+            <Icon name="rocket" :size="28" />
+          </div>
+          <h3>快速开发</h3>
+          <p>基于 FastAPI + Vue 3 构建，开发效率高，性能优异</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon database">
+            <Icon name="database" :size="28" />
+          </div>
+          <h3>轻量数据库</h3>
+          <p>使用 SQLite，无需额外配置，开箱即用</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon wrench">
+            <Icon name="wrench" :size="28" />
+          </div>
+          <h3>工具扩展</h3>
+          <p>模块化设计，轻松添加新的便携工具，持续扩展</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import Icon from '../components/Icon.vue'
 </script>
 
 <style scoped>
 .home {
-  max-width: 1000px;
+  width: 100%;
+}
+
+.hero-section {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  max-width: 600px;
   margin: 0 auto;
 }
 
-h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-  transition: color 0.3s;
+.section {
+  margin-bottom: 3rem;
 }
 
-p {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  margin-bottom: 2rem;
-  transition: color 0.3s;
-}
-
-.tools-title, .features-title {
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   font-size: 1.5rem;
-  margin: 2.5rem 0 1.5rem;
+  font-weight: 700;
   color: var(--text-primary);
-  transition: color 0.3s;
+  margin-bottom: 1.5rem;
 }
 
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
 }
 
-.tools-grid .tool-card {
+.tool-card {
   background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px var(--shadow);
   text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
 }
 
-.tools-grid .tool-card:hover {
+.tool-card:hover {
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-lg);
   transform: translateY(-4px);
-  box-shadow: 0 4px 16px var(--shadow-hover);
 }
 
-.tool-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.75rem;
+.tool-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.tools-grid h4 {
-  margin-bottom: 0.5rem;
+.tool-icon-wrapper.clock {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-primary);
+}
+
+.tool-icon-wrapper.json {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--accent-secondary);
+}
+
+.tool-icon-wrapper.lock {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-success);
+}
+
+.tool-icon-wrapper.money {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--accent-warning);
+}
+
+.tool-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.tool-content h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
   color: var(--text-primary);
-  font-size: 1.1rem;
-  transition: color 0.3s;
+  margin-bottom: 0.5rem;
+  transition: color var(--transition-fast);
 }
 
-.tools-grid p {
-  margin: 0;
+.tool-card:hover .tool-content h3 {
+  color: var(--accent-primary);
+}
+
+.tool-content p {
   font-size: 0.9rem;
   color: var(--text-secondary);
-  transition: color 0.3s;
+  line-height: 1.5;
+  margin: 0;
 }
 
-.features {
+.tool-arrow {
+  color: var(--text-tertiary);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all var(--transition-normal);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.tool-card:hover .tool-arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--accent-primary);
+}
+
+.features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
 }
 
 .feature-card {
   background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px var(--shadow);
-  transition: background 0.3s, box-shadow 0.3s;
+  text-align: center;
+  transition: all var(--transition-normal);
+}
+
+.feature-card:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.feature-icon.rocket {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--accent-primary);
+}
+
+.feature-icon.database {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--accent-secondary);
+}
+
+.feature-icon.wrench {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-success);
 }
 
 .feature-card h3 {
-  margin-bottom: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
   color: var(--text-primary);
-  transition: color 0.3s;
+  margin-bottom: 0.75rem;
 }
 
 .feature-card p {
-  margin: 0;
   font-size: 0.95rem;
   color: var(--text-secondary);
-  transition: color 0.3s;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+  
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
