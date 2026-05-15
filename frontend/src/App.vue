@@ -11,10 +11,6 @@
             <Icon name="home" :size="18" />
             <span>首页</span>
           </router-link>
-          <router-link to="/tools/timestamp" class="nav-link" :class="{ active: $route.path === '/tools/timestamp' }">
-            <Icon name="clock" :size="18" />
-            <span>时间戳</span>
-          </router-link>
           <router-link to="/tools" class="nav-link" :class="{ active: $route.path === '/tools' }">
             <Icon name="tools" :size="18" />
             <span>工具列表</span>
@@ -25,9 +21,34 @@
         </button>
       </div>
     </nav>
-    <main class="main-content">
-      <router-view />
-    </main>
+    <div class="app-body">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h3>功能列表</h3>
+        </div>
+        <nav class="sidebar-nav">
+          <router-link to="/tools/timestamp" class="sidebar-link" :class="{ active: $route.path === '/tools/timestamp' }">
+            <Icon name="clock" :size="18" />
+            <span>时间戳转换</span>
+          </router-link>
+          <router-link to="/tools/json" class="sidebar-link" :class="{ active: $route.path === '/tools/json' }">
+            <Icon name="json" :size="18" />
+            <span>JSON格式化</span>
+          </router-link>
+          <router-link to="/tools/md5" class="sidebar-link" :class="{ active: $route.path === '/tools/md5' }">
+            <Icon name="lock" :size="18" />
+            <span>MD5加密</span>
+          </router-link>
+          <router-link to="/tools/number-to-chinese" class="sidebar-link" :class="{ active: $route.path === '/tools/number-to-chinese' }">
+            <Icon name="money" :size="18" />
+            <span>数字转中文</span>
+          </router-link>
+        </nav>
+      </aside>
+      <main class="main-content">
+        <router-view />
+      </main>
+    </div>
   </div>
 </template>
 
@@ -77,7 +98,7 @@ watch(isDark, (newValue) => {
 }
 
 .nav-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 1.5rem;
   height: 64px;
@@ -144,12 +165,78 @@ watch(isDark, (newValue) => {
   color: var(--text-primary);
 }
 
+.app-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebar {
+  width: 260px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-slow);
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 1.5rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.sidebar-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.sidebar-nav {
+  padding: 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all var(--transition-normal);
+}
+
+.sidebar-link:hover {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+}
+
+.sidebar-link.active {
+  color: var(--accent-primary);
+  background: rgba(59, 130, 246, 0.1);
+}
+
 .main-content {
   flex: 1;
   padding: 2rem 1.5rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -163,6 +250,10 @@ watch(isDark, (newValue) => {
   }
   
   .nav-link span {
+    display: none;
+  }
+  
+  .sidebar {
     display: none;
   }
   
