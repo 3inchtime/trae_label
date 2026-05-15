@@ -185,20 +185,23 @@ onMounted(() => {
 h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
-  color: #2c3e50;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .current-time {
-  background: white;
+  background: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .current-time h3 {
   margin-bottom: 1rem;
-  color: #2c3e50;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .time-display {
@@ -216,33 +219,36 @@ h2 {
 .time-item label {
   font-weight: 500;
   min-width: 120px;
-  color: #666;
+  color: var(--text-secondary);
+  transition: color 0.3s;
 }
 
 .time-item span {
   font-family: monospace;
   font-size: 1.1rem;
-  color: #42b983;
+  color: var(--accent);
   font-weight: 600;
+  transition: color 0.3s;
 }
 
 .copy-btn {
   padding: 0.25rem 0.75rem;
-  background: #ecf0f1;
+  background: var(--btn-bg);
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.85rem;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
+  color: var(--btn-text);
 }
 
 .copy-btn:hover {
-  background: #d5dbdb;
+  background: var(--btn-bg-hover);
 }
 
 .refresh-btn {
   padding: 0.5rem 1rem;
-  background: #42b983;
+  background: var(--accent);
   color: white;
   border: none;
   border-radius: 4px;
@@ -252,20 +258,22 @@ h2 {
 }
 
 .refresh-btn:hover {
-  background: #3aa876;
+  background: var(--accent-hover);
 }
 
 .converter-section {
-  background: white;
+  background: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .converter-section h3 {
   margin-bottom: 1rem;
-  color: #2c3e50;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .input-group {
@@ -277,20 +285,26 @@ h2 {
 .input-field {
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--input-border);
   border-radius: 4px;
   font-size: 1rem;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, background-color 0.3s, color 0.3s;
+  background-color: var(--input-bg);
+  color: var(--input-text);
+}
+
+.input-field::placeholder {
+  color: var(--input-placeholder);
 }
 
 .input-field:focus {
   outline: none;
-  border-color: #42b983;
+  border-color: var(--accent);
 }
 
 .convert-btn {
   padding: 0.75rem 1.5rem;
-  background: #42b983;
+  background: var(--accent);
   color: white;
   border: none;
   border-radius: 4px;
@@ -301,7 +315,7 @@ h2 {
 }
 
 .convert-btn:hover {
-  background: #3aa876;
+  background: var(--accent-hover);
 }
 
 .result {
@@ -309,32 +323,38 @@ h2 {
   align-items: center;
   gap: 1rem;
   padding: 0.75rem;
-  background: #f8f9fa;
+  background: var(--result-bg);
   border-radius: 4px;
+  transition: background 0.3s;
 }
 
 .result p {
   margin: 0;
   flex: 1;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .result strong {
-  color: #42b983;
+  color: var(--accent);
   font-family: monospace;
   font-size: 1.1rem;
+  transition: color 0.3s;
 }
 
 .quick-timestamps {
-  background: white;
+  background: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .quick-timestamps h3 {
   margin-bottom: 1rem;
-  color: #2c3e50;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .quick-buttons {
@@ -345,7 +365,8 @@ h2 {
 
 .quick-buttons button {
   padding: 0.75rem;
-  background: #ecf0f1;
+  background: var(--btn-bg);
+  color: var(--text-primary);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -354,23 +375,25 @@ h2 {
 }
 
 .quick-buttons button:hover {
-  background: #42b983;
+  background: var(--accent);
   color: white;
 }
 
 .error-message {
-  background: #fee;
-  color: #c33;
+  background: var(--error-bg);
+  color: var(--error-text);
   padding: 1rem;
   border-radius: 4px;
   margin-top: 1rem;
+  transition: background 0.3s, color 0.3s;
 }
 
 .success-message {
-  background: #efe;
-  color: #3c3;
+  background: var(--success-bg);
+  color: var(--success-text);
   padding: 1rem;
   border-radius: 4px;
   margin-top: 1rem;
+  transition: background 0.3s, color 0.3s;
 }
 </style>

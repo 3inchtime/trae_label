@@ -57,19 +57,22 @@
 h2 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #2c3e50;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 p {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
+  transition: color 0.3s;
 }
 
 .tools-title, .features-title {
   font-size: 1.5rem;
   margin: 2.5rem 0 1.5rem;
-  color: #2c3e50;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .tools-grid {
@@ -79,19 +82,19 @@ p {
 }
 
 .tools-grid .tool-card {
-  background: white;
+  background: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--shadow);
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
   display: block;
 }
 
 .tools-grid .tool-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 16px var(--shadow-hover);
 }
 
 .tool-icon {
@@ -101,14 +104,16 @@ p {
 
 .tools-grid h4 {
   margin-bottom: 0.5rem;
-  color: #2c3e50;
+  color: var(--text-primary);
   font-size: 1.1rem;
+  transition: color 0.3s;
 }
 
 .tools-grid p {
   margin: 0;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary);
+  transition: color 0.3s;
 }
 
 .features {
@@ -118,19 +123,23 @@ p {
 }
 
 .feature-card {
-  background: white;
+  background: var(--bg-secondary);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .feature-card h3 {
   margin-bottom: 0.5rem;
-  color: #2c3e50;
+  color: var(--text-primary);
+  transition: color 0.3s;
 }
 
 .feature-card p {
   margin: 0;
   font-size: 0.95rem;
+  color: var(--text-secondary);
+  transition: color 0.3s;
 }
 </style>
