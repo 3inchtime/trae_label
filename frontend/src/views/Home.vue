@@ -155,6 +155,21 @@
             </svg>
           </div>
         </router-link>
+        
+        <router-link to="/tools/color" class="tool-card">
+          <div class="tool-icon-wrapper color">
+            <Icon name="palette" :size="28" />
+          </div>
+          <div class="tool-content">
+            <h3>颜色选择器</h3>
+            <p>可视化选择颜色，支持 HEX/RGB/HSL 格式转换、配色方案生成和对比度检查</p>
+          </div>
+          <div class="tool-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -332,6 +347,12 @@ import Icon from '../components/Icon.vue'
   background: linear-gradient(135deg, rgba(251, 146, 60, 0.2) 0%, rgba(249, 115, 22, 0.15) 100%);
   color: #fb923c;
   box-shadow: 0 4px 15px rgba(251, 146, 60, 0.2);
+}
+
+.tool-icon-wrapper.color {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(124, 58, 237, 0.15) 100%);
+  color: #ec4899;
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.2);
 }
 
 .tool-content {

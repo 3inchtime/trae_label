@@ -142,6 +142,51 @@
           </svg>
         </div>
       </router-link>
+      
+      <router-link to="/tools/calendar" class="tool-card">
+        <div class="tool-icon calendar">
+          <Icon name="calendar" :size="32" />
+        </div>
+        <div class="tool-info">
+          <h3>万年历</h3>
+          <p>查看公历、农历、节气、节日等信息，支持快速跳转任意年月</p>
+        </div>
+        <div class="tool-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </router-link>
+      
+      <router-link to="/tools/length" class="tool-card">
+        <div class="tool-icon length">
+          <Icon name="ruler" :size="32" />
+        </div>
+        <div class="tool-info">
+          <h3>长度单位换算</h3>
+          <p>支持米、千米、英寸、英尺、英里、里、丈、尺、寸等多种单位转换</p>
+        </div>
+        <div class="tool-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </router-link>
+      
+      <router-link to="/tools/color" class="tool-card">
+        <div class="tool-icon color">
+          <Icon name="palette" :size="32" />
+        </div>
+        <div class="tool-info">
+          <h3>颜色选择器</h3>
+          <p>可视化选择颜色，支持 HEX/RGB/HSL 格式转换、配色方案生成</p>
+        </div>
+        <div class="tool-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -310,6 +355,21 @@ onMounted(fetchTools)
 .tool-icon.time-diff {
   background: rgba(34, 197, 94, 0.1);
   color: #22c55e;
+}
+
+.tool-icon.calendar {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+}
+
+.tool-icon.length {
+  background: rgba(251, 146, 60, 0.1);
+  color: #fb923c;
+}
+
+.tool-icon.color {
+  background: rgba(236, 72, 153, 0.1);
+  color: #ec4899;
 }
 
 .tool-info {
