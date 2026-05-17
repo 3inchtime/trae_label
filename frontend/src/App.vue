@@ -294,18 +294,21 @@ watch(isDark, (newValue) => {
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 50%, var(--accent-tertiary) 100%);
-  background-size: 200% 200%;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.7) 0%, rgba(37, 99, 235, 0.8) 30%, rgba(14, 165, 233, 0.7) 70%, rgba(59, 130, 246, 0.8) 100%);
+  background-size: 300% 300%;
   color: white;
   text-decoration: none;
   border-radius: var(--radius-lg);
   font-weight: 600;
   font-size: 0.9rem;
   transition: all var(--transition-normal);
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
-  animation: gradientShift 8s ease infinite;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  animation: gradientShift 6s ease infinite;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .login-btn::before {
@@ -315,7 +318,7 @@ watch(isDark, (newValue) => {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
   transition: left var(--transition-slow);
 }
 
@@ -325,7 +328,8 @@ watch(isDark, (newValue) => {
 
 .login-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.45);
+  box-shadow: 0 8px 35px rgba(59, 130, 246, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .login-btn:active {
