@@ -18,6 +18,10 @@
 | **时间差计算** | 计算两个时间的年、月、日、时、分、秒差值 |
 | **万年历** | 农历、节气、节假日查询，支持月份浏览 |
 | **长度单位换算** | 支持公制、英制、市制单位换算 |
+| **颜色选择器** | 可视化选择颜色，支持 HEX/RGB/HSL 格式转换、配色方案生成 |
+| **URL 编解码** | URL 编码与解码，支持自定义安全字符，处理中文和特殊字符 |
+| **YAML 格式校验** | 验证 YAML 格式正确性，支持格式化和错误行号、列号定位 |
+| **反应速度测试** | 测试你的反应速度，颜色变绿时尽快点击，记录反应时间 |
 
 ### 🎨 界面特性
 
@@ -35,12 +39,14 @@
 - **数据验证**: Pydantic 2.5.3
 - **加密库**: cryptography 41.0.7
 - **ASGI 服务器**: Uvicorn 0.27.0
+- **YAML 解析**: PyYAML 6.0.1
 - **依赖**:
   - `fastapi`: Web 框架，高性能异步支持
   - `sqlalchemy`: ORM 数据持久化
   - `pydantic`: 数据验证与序列化
   - `cryptography`: 加密算法实现
   - `python-multipart`: 表单数据处理
+  - `pyyaml`: YAML 格式解析与验证
 
 ### 前端
 - **框架**: Vue 3 (Composition API)
@@ -126,7 +132,9 @@ backend/app/
     ├── weight_convert.py # 重量换算 API
     ├── time_difference.py # 时间差计算 API
     ├── calendar.py      # 万年历 API
-    └── length_convert.py # 长度换算 API
+    ├── length_convert.py # 长度换算 API
+    ├── url_tools.py     # URL 编解码 API
+    └── yaml_tools.py    # YAML 验证格式化 API
 ```
 
 **设计亮点**:
@@ -160,6 +168,8 @@ frontend/src/
 ├── main.js              # 应用入口
 ├── App.vue              # 根组件（布局、主题切换）
 ├── style.css            # 全局样式与设计系统
+├── config/
+│   └── toolsConfig.js   # 工具配置文件
 ├── router/
 │   └── index.js         # 路由配置
 ├── api/
@@ -178,7 +188,11 @@ frontend/src/
     ├── WeightConverter.vue
     ├── TimeDifferenceTool.vue
     ├── CalendarTool.vue
-    └── LengthConverter.vue
+    ├── LengthConverter.vue
+    ├── ColorPicker.vue
+    ├── UrlTool.vue
+    ├── YamlTool.vue
+    └── ReactionTest.vue
 ```
 
 #### 2. 设计系统
@@ -213,6 +227,11 @@ frontend/src/
 - 重量/长度换算使用字典存储单位换算因子
 - 统一的转换算法，支持多种单位策略
 
+#### 5. 配置驱动模式 (工具管理)
+- 使用 `toolsConfig.js` 统一配置所有工具的元数据
+- 新增工具只需在配置文件中添加条目，自动在列表中显示
+- 工具名称、描述、图标、路由等信息集中管理
+
 ### 代码质量评估
 
 | 维度 | 评分 | 说明 |
@@ -220,7 +239,7 @@ frontend/src/
 | **架构设计** | ⭐⭐⭐⭐ | 分层清晰，模块化良好，易于扩展 |
 | **代码风格** | ⭐⭐⭐⭐ | 命名规范，结构清晰 |
 | **错误处理** | ⭐⭐⭐ | 基础 HTTP 异常处理，缺少业务异常 |
-| **测试覆盖** | ⭐⭐ | 缺少单元测试和集成测试 |
+| **测试覆盖** | ⭐⭐⭐ | 49个集成测试用例，覆盖所有后端API |
 | **文档完整性** | ⭐⭐⭐⭐ | API 文档自动生成，README 完善 |
 | **类型安全** | ⭐⭐⭐⭐ | Pydantic 提供完整类型验证 |
 
@@ -230,7 +249,7 @@ frontend/src/
 trae_label/
 ├── backend/                    # 后端 FastAPI 项目
 │   ├── app/
-│   │   ├── routers/           # API 路由（11个工具模块）
+│   │   ├── routers/           # API 路由（14个工具模块）
 │   │   │   ├── __init__.py
 │   │   │   ├── tools.py       # 工具管理 API
 │   │   │   ├── timestamp.py   # 时间戳转换 API
@@ -242,17 +261,21 @@ trae_label/
 │   │   │   ├── weight_convert.py # 重量换算 API
 │   │   │   ├── time_difference.py # 时间差计算 API
 │   │   │   ├── calendar.py    # 万年历 API
-│   │   │   └── length_convert.py # 长度换算 API
+│   │   │   ├── length_convert.py # 长度换算 API
+│   │   │   ├── url_tools.py   # URL 编解码 API
+│   │   │   └── yaml_tools.py  # YAML 验证格式化 API
 │   │   ├── __init__.py
 │   │   ├── main.py            # 应用入口
 │   │   ├── database.py        # 数据库配置
 │   │   ├── models.py          # SQLAlchemy 数据模型
-│   │   └── schemas.py         # Pydantic 数据模式（20+ 数据模型）
+│   │   └── schemas.py         # Pydantic 数据模式（25+ 数据模型）
 │   ├── requirements.txt       # Python 依赖
-│   └── test_api.py           # API 测试脚本
+│   ├── test_api.py           # API 测试脚本
+│   ├── test_api_integration.py # 集成测试脚本
+│   └── TESTING.md            # 测试说明文档
 ├── frontend/                   # 前端 Vue 项目
 │   ├── src/
-│   │   ├── views/             # 页面视图（12个页面组件）
+│   │   ├── views/             # 页面视图（16个页面组件）
 │   │   │   ├── Home.vue       # 首页
 │   │   │   ├── Tools.vue      # 工具列表页
 │   │   │   ├── TimestampTool.vue  # 时间戳转换页
@@ -264,9 +287,15 @@ trae_label/
 │   │   │   ├── WeightConverter.vue # 重量换算页
 │   │   │   ├── TimeDifferenceTool.vue # 时间差计算页
 │   │   │   ├── CalendarTool.vue    # 万年历页
-│   │   │   └── LengthConverter.vue # 长度换算页
+│   │   │   ├── LengthConverter.vue # 长度换算页
+│   │   │   ├── ColorPicker.vue     # 颜色选择器页
+│   │   │   ├── UrlTool.vue         # URL 编解码页
+│   │   │   ├── YamlTool.vue        # YAML 验证页
+│   │   │   └── ReactionTest.vue    # 反应速度测试页
 │   │   ├── components/        # 通用组件
 │   │   │   └── Icon.vue       # 图标组件
+│   │   ├── config/            # 配置文件
+│   │   │   └── toolsConfig.js # 工具列表配置
 │   │   ├── router/            # 路由配置
 │   │   │   └── index.js
 │   │   ├── api/               # API 封装
@@ -353,7 +382,32 @@ npm run dev
 - **API 文档**: http://localhost:8000/docs (Swagger UI)
 - **ReDoc 文档**: http://localhost:8000/redoc
 
+## 🧪 自动化测试
+
+项目包含完整的后端 API 自动化测试，覆盖 14 个功能模块，共 49 个测试用例。
+
+### 运行测试
+
+**集成测试（推荐，无需启动服务）:**
+```bash
+cd backend
+source venv/bin/activate
+python test_api_integration.py
+```
+
+**API 测试（需要启动后端服务）:**
+```bash
+cd backend
+python test_api.py
+```
+
+详细测试说明请参考 [TESTING.md](backend/TESTING.md)
+
 ## 📚 API 文档
+
+### 基础服务
+- `GET /` - 根路径欢迎信息
+- `GET /api/health` - 健康检查
 
 ### 时间戳转换
 - `POST /api/tools/timestamp/convert` - 时间戳与日期时间互转
@@ -398,6 +452,20 @@ npm run dev
 ### 长度单位换算
 - `POST /api/tools/length/convert` - 长度单位转换
 
+### 颜色选择器
+- *注：纯前端工具，无需后端API*
+
+### URL 编解码
+- `POST /api/tools/url/encode` - URL 编码
+- `POST /api/tools/url/decode` - URL 解码
+
+### YAML 格式校验
+- `POST /api/tools/yaml/validate` - 验证 YAML 格式
+- `POST /api/tools/yaml/format` - 格式化 YAML
+
+### 反应速度测试
+- *注：纯前端工具，无需后端API*
+
 ## 🔧 开发说明
 
 ### 后端开发
@@ -408,12 +476,13 @@ npm run dev
 - 数据模型定义在 `models.py`，Pydantic 模式定义在 `schemas.py`
 
 **新增工具开发流程**:
-1. 在 `schemas.py` 中定义请求/响应模型
-2. 在 `routers/` 下创建新的路由文件，实现业务逻辑
+1. 在 `schemas.py` 中定义请求/响应模型（如需要后端支持）
+2. 在 `routers/` 下创建新的路由文件，实现业务逻辑（如需要后端支持）
 3. 在 `main.py` 中注册新路由
-4. 在前端 `router/index.js` 中添加路由配置
-5. 创建对应的 Vue 视图组件
-6. 在 `App.vue` 侧边栏添加导航链接
+4. 在前端 `src/config/toolsConfig.js` 中添加工具配置
+5. 在前端 `router/index.js` 中添加路由配置
+6. 创建对应的 Vue 视图组件
+7. 如需要后端支持，在 `test_api_integration.py` 中添加集成测试用例
 
 ### 前端开发
 
@@ -422,6 +491,7 @@ npm run dev
 - API 封装在 `src/api/index.js`
 - 路由配置在 `src/router/index.js`
 - 全局样式和 CSS 变量定义在 `src/style.css`
+- 工具配置统一在 `src/config/toolsConfig.js` 中管理
 
 ### 开发规范
 
@@ -430,12 +500,14 @@ npm run dev
 - 使用类型注解（Type Hints）
 - 所有 API 必须定义 Pydantic 模型进行输入输出验证
 - 错误处理使用 `HTTPException`，提供明确的状态码和错误信息
+- 新增功能必须添加对应的集成测试用例
 
 #### Vue 前端规范
 - 使用 Composition API（`<script setup>` 语法）
 - 组件命名使用 PascalCase
 - Props 定义必须包含类型和默认值
 - 使用 CSS 变量，避免硬编码颜色、尺寸
+- 新增工具必须更新 `toolsConfig.js` 配置文件
 
 ## 🗺 功能迭代计划
 
@@ -456,10 +528,6 @@ npm run dev
   - 文本编码/解码
   - 图片编码/解码
   - 文件编码/解码
-
-- [ ] **URL 编码/解码**
-  - 标准 URL 编码
-  - Unicode 编码支持
 
 #### v1.2: 用户体验优化
 - [ ] **工具收藏功能**
@@ -513,12 +581,6 @@ npm run dev
   - 大小写转换
   - 去除空格/空行
   - 正则表达式测试器
-
-- [ ] **颜色工具**
-  - 颜色选择器
-  - HEX/RGB/HSL 格式互转
-  - 配色方案生成
-  - 对比度检查
 
 #### v1.5: 高级功能
 - [ ] **批量处理**
@@ -584,7 +646,8 @@ npm run dev
 
 | 版本 | 发布日期 | 主要功能 |
 |------|----------|----------|
-| v1.0 | 2024 | 初始版本，10个核心工具 |
+| v1.0 | 2024-01 | 初始版本，10个核心工具 |
+| v1.1 | 2024-02 | 新增4个工具：颜色选择器、URL编解码、YAML验证、反应速度测试 |
 
 ## 🤝 贡献指南
 
@@ -599,8 +662,8 @@ npm run dev
 
 ### 代码审查标准
 - 代码风格符合项目规范
-- 包含必要的测试
-- 更新相关文档
+- 包含必要的测试（后端工具需添加集成测试）
+- 更新相关文档（README.md 等）
 - 不破坏现有功能
 
 ## 📄 许可证
