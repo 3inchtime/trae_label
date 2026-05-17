@@ -35,4 +35,7 @@ export const getTimerHistory = () => api.get('/tools/timer/history')
 export const convertWeight = (data) => api.post('/tools/weight/convert', data)
 export const calculateTimeDifference = (data) => api.post('/tools/time-difference/calculate', data)
 
+export const getCalendarMonth = (data) => api.post('/tools/calendar/month', data)
+export const getTodayInfo = () => api.get('/tools/calendar/today')
+
 export default api

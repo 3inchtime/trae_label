@@ -167,3 +167,32 @@ class TimeDifferenceResponse(BaseModel):
     total_hours: int
     total_minutes: int
     total_seconds: int
+
+
+class CalendarDayInfo(BaseModel):
+    year: int
+    month: int
+    day: int
+    weekday: str
+    weekday_en: str
+    lunar_year: str
+    lunar_month: str
+    lunar_day: str
+    solar_term: Optional[str] = None
+    is_holiday: bool = False
+    holiday_name: Optional[str] = None
+    is_today: bool = False
+
+
+class CalendarMonthRequest(BaseModel):
+    year: Optional[int] = None
+    month: Optional[int] = None
+
+
+class CalendarMonthResponse(BaseModel):
+    year: int
+    month: int
+    month_name: str
+    days: List[CalendarDayInfo]
+    first_day_weekday: int
+    total_days: int

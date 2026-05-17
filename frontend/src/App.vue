@@ -11,10 +11,6 @@
             <Icon name="home" :size="18" />
             <span>首页</span>
           </router-link>
-          <router-link to="/tools" class="nav-link" :class="{ active: $route.path === '/tools' }">
-            <Icon name="tools" :size="18" />
-            <span>工具列表</span>
-          </router-link>
         </div>
         <button @click="toggleDarkMode" class="theme-toggle" :title="isDark ? '切换到浅色模式' : '切换到深色模式'">
           <Icon :name="isDark ? 'sun' : 'moon'" :size="20" />
@@ -52,14 +48,18 @@
             <span>在线计时器</span>
           </router-link>
           <router-link to="/tools/weight" class="sidebar-link" :class="{ active: $route.path === '/tools/weight' }">
-          <Icon name="box" :size="18" />
-          <span>重量单位换算</span>
-        </router-link>
-        <router-link to="/tools/time-difference" class="sidebar-link" :class="{ active: $route.path === '/tools/time-difference' }">
-          <Icon name="clock" :size="18" />
-          <span>时间差计算</span>
-        </router-link>
-      </nav>
+            <Icon name="box" :size="18" />
+            <span>重量单位换算</span>
+          </router-link>
+          <router-link to="/tools/time-difference" class="sidebar-link" :class="{ active: $route.path === '/tools/time-difference' }">
+            <Icon name="clock" :size="18" />
+            <span>时间差计算</span>
+          </router-link>
+          <router-link to="/tools/calendar" class="sidebar-link" :class="{ active: $route.path === '/tools/calendar' }">
+            <Icon name="calendar" :size="18" />
+            <span>万年历</span>
+          </router-link>
+        </nav>
       </aside>
       <main class="main-content">
         <router-view />
