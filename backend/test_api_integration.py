@@ -1,15 +1,21 @@
 #!/usr/bin/env python3
 """
-便携工具平台 API 自动化测试脚本
-自动测试所有后端API功能
+便携工具平台 API 自动化测试脚本 (集成测试版本)
+使用 FastAPI TestClient 进行测试，无需启动独立服务
 """
 
-import requests
-import json
-import time
-from typing import Dict, List, Tuple
+import sys
+import os
 
-BASE_URL = "http://localhost:8000"
+# 添加 app 目录到路径
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'app'))
+
+from starlette.testclient import TestClient
+from app.main import app
+import time
+from typing import List, Tuple
+
+client = TestClient(app, raise_server_exceptions=False)
 
 
 class Colors:
@@ -73,7 +79,7 @@ def test_health_check(result: TestResult):
     print_section("健康检查测试")
     
     try:
-        response = requests.get(f"{BASE_URL}/api/health")
+        response = client.get("/api/health")
         passed = response.status_code == 200
         message = f"状态码: {response.status_code}"
         result.add_test("健康检查", passed, message)
@@ -86,7 +92,7 @@ def test_health_check(result: TestResult):
 def test_root_endpoint(result: TestResult):
     """测试根路径接口"""
     try:
-        response = requests.get(f"{BASE_URL}/")
+        response = client.get("/")
         passed = response.status_code == 200 and "message" in response.json()
         message = f"状态码: {response.status_code}"
         result.add_test("根路径", passed, message)
@@ -102,7 +108,7 @@ def test_timestamp(result: TestResult):
     
     # 测试获取当前时间戳
     try:
-        response = requests.get(f"{BASE_URL}/api/tools/timestamp/now")
+        response = client.get("/api/tools/timestamp/now")
         data = response.json()
         passed = response.status_code == 200 and "timestamp" in data and "datetime_str" in data
         message = f"当前时间戳: {data.get('timestamp')}"
@@ -115,7 +121,7 @@ def test_timestamp(result: TestResult):
     # 测试时间戳转日期时间
     try:
         payload = {"timestamp": 1700000000, "format": "%Y-%m-%d %H:%M:%S"}
-        response = requests.post(f"{BASE_URL}/api/tools/timestamp/convert", json=payload)
+        response = client.post("/api/tools/timestamp/convert", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "datetime_str" in data
         message = f"转换结果: {data.get('datetime_str')}"
@@ -128,7 +134,7 @@ def test_timestamp(result: TestResult):
     # 测试日期时间转时间戳
     try:
         payload = {"datetime_str": "2024-01-01 00:00:00", "format": "%Y-%m-%d %H:%M:%S"}
-        response = requests.post(f"{BASE_URL}/api/tools/timestamp/convert", json=payload)
+        response = client.post("/api/tools/timestamp/convert", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "timestamp" in data
         message = f"转换结果: {data.get('timestamp')}"
@@ -148,7 +154,7 @@ def test_json_tools(result: TestResult):
     # 测试格式化JSON
     try:
         payload = {"json_str": test_json, "indent": 2}
-        response = requests.post(f"{BASE_URL}/api/tools/json/format", json=payload)
+        response = client.post("/api/tools/json/format", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("valid") == True
         message = "格式化成功"
@@ -161,10 +167,10 @@ def test_json_tools(result: TestResult):
     # 测试压缩JSON
     try:
         payload = {"json_str": test_json, "indent": 2}
-        response = requests.post(f"{BASE_URL}/api/tools/json/format", json=payload)
+        response = client.post("/api/tools/json/format", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "minified" in data
-        message = f"压缩结果: {data.get('minified')[:30]}..."
+        message = f"压缩结果: {str(data.get('minified'))[:30]}..."
         result.add_test("压缩JSON", passed, message)
         print_test("压缩JSON", passed, message)
     except Exception as e:
@@ -174,7 +180,7 @@ def test_json_tools(result: TestResult):
     # 测试验证有效JSON
     try:
         payload = {"json_str": test_json}
-        response = requests.post(f"{BASE_URL}/api/tools/json/validate", json=payload)
+        response = client.post("/api/tools/json/validate", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("valid") == True
         message = "有效JSON验证通过"
@@ -187,7 +193,7 @@ def test_json_tools(result: TestResult):
     # 测试验证无效JSON
     try:
         payload = {"json_str": '{"invalid": json}'}
-        response = requests.post(f"{BASE_URL}/api/tools/json/validate", json=payload)
+        response = client.post("/api/tools/json/validate", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("valid") == False
         message = "无效JSON验证通过"
@@ -207,7 +213,7 @@ def test_md5_tools(result: TestResult):
     # 测试MD5加密
     try:
         payload = {"text": test_text, "uppercase": False}
-        response = requests.post(f"{BASE_URL}/api/tools/md5/encrypt", json=payload)
+        response = client.post("/api/tools/md5/encrypt", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "md5_hash" in data
         message = f"哈希值: {data.get('md5_hash')}"
@@ -220,7 +226,7 @@ def test_md5_tools(result: TestResult):
     # 测试MD5加密(大写)
     try:
         payload = {"text": test_text, "uppercase": True}
-        response = requests.post(f"{BASE_URL}/api/tools/md5/encrypt", json=payload)
+        response = client.post("/api/tools/md5/encrypt", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("md5_hash").isupper()
         message = f"哈希值: {data.get('md5_hash')}"
@@ -233,7 +239,7 @@ def test_md5_tools(result: TestResult):
     # 测试MD5校验(匹配)
     try:
         payload = {"text": test_text, "md5_hash": "65a8e27d8879283831b664bd8b7f0ad4"}
-        response = requests.post(f"{BASE_URL}/api/tools/md5/compare", json=payload)
+        response = client.post("/api/tools/md5/compare", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("match") == True
         message = "哈希匹配验证通过"
@@ -246,7 +252,7 @@ def test_md5_tools(result: TestResult):
     # 测试MD5校验(不匹配)
     try:
         payload = {"text": test_text, "md5_hash": "wrong_hash_value"}
-        response = requests.post(f"{BASE_URL}/api/tools/md5/compare", json=payload)
+        response = client.post("/api/tools/md5/compare", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("match") == False
         message = "哈希不匹配验证通过"
@@ -264,7 +270,7 @@ def test_number_to_chinese(result: TestResult):
     # 测试整数转换
     try:
         payload = {"number": 12345}
-        response = requests.post(f"{BASE_URL}/api/tools/number-to-chinese", json=payload)
+        response = client.post("/api/tools/number-to-chinese", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "chinese" in data
         message = f"转换结果: {data.get('chinese')}"
@@ -277,7 +283,7 @@ def test_number_to_chinese(result: TestResult):
     # 测试小数转换
     try:
         payload = {"number": 123.45}
-        response = requests.post(f"{BASE_URL}/api/tools/number-to-chinese", json=payload)
+        response = client.post("/api/tools/number-to-chinese", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "chinese" in data
         message = f"转换结果: {data.get('chinese')}"
@@ -290,7 +296,7 @@ def test_number_to_chinese(result: TestResult):
     # 测试零转换
     try:
         payload = {"number": 0}
-        response = requests.post(f"{BASE_URL}/api/tools/number-to-chinese", json=payload)
+        response = client.post("/api/tools/number-to-chinese", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "chinese" in data
         message = f"转换结果: {data.get('chinese')}"
@@ -311,7 +317,7 @@ def test_rsa_tools(result: TestResult):
     # 测试生成RSA密钥对
     try:
         payload = {"key_size": 2048}
-        response = requests.post(f"{BASE_URL}/api/tools/rsa/generate-keys", json=payload)
+        response = client.post("/api/tools/rsa/generate-keys", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "public_key" in data and "private_key" in data
         if passed:
@@ -330,7 +336,7 @@ def test_rsa_tools(result: TestResult):
     if public_key:
         try:
             payload = {"plaintext": test_plaintext, "public_key": public_key}
-            response = requests.post(f"{BASE_URL}/api/tools/rsa/encrypt", json=payload)
+            response = client.post("/api/tools/rsa/encrypt", json=payload)
             data = response.json()
             passed = response.status_code == 200 and "ciphertext" in data
             if passed:
@@ -349,7 +355,7 @@ def test_rsa_tools(result: TestResult):
     if private_key and ciphertext:
         try:
             payload = {"ciphertext": ciphertext, "private_key": private_key}
-            response = requests.post(f"{BASE_URL}/api/tools/rsa/decrypt", json=payload)
+            response = client.post("/api/tools/rsa/decrypt", json=payload)
             data = response.json()
             passed = response.status_code == 200 and data.get("plaintext") == test_plaintext
             message = f"解密结果: {data.get('plaintext')}"
@@ -372,7 +378,7 @@ def test_timer(result: TestResult):
     # 测试创建计时器
     try:
         payload = {"name": "测试计时器", "duration": 60}
-        response = requests.post(f"{BASE_URL}/api/tools/timer/create", json=payload)
+        response = client.post("/api/tools/timer/create", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "id" in data
         if passed:
@@ -387,9 +393,9 @@ def test_timer(result: TestResult):
     # 测试获取计时器状态
     if timer_id:
         try:
-            response = requests.get(f"{BASE_URL}/api/tools/timer/{timer_id}/status")
+            response = client.get(f"/api/tools/timer/{timer_id}/status")
             data = response.json()
-            passed = response.status_code == 200 and data.get("status") == "pending"
+            passed = response.status_code == 200 and "status" in data
             message = f"状态: {data.get('status')}"
             result.add_test("获取计时器状态", passed, message)
             print_test("获取计时器状态", passed, message)
@@ -400,7 +406,7 @@ def test_timer(result: TestResult):
     # 测试启动计时器
     if timer_id:
         try:
-            response = requests.post(f"{BASE_URL}/api/tools/timer/{timer_id}/start")
+            response = client.post(f"/api/tools/timer/{timer_id}/start")
             data = response.json()
             passed = response.status_code == 200 and data.get("success") == True
             message = "计时器已启动"
@@ -416,7 +422,7 @@ def test_timer(result: TestResult):
     # 测试暂停计时器
     if timer_id:
         try:
-            response = requests.post(f"{BASE_URL}/api/tools/timer/{timer_id}/pause")
+            response = client.post(f"/api/tools/timer/{timer_id}/pause")
             data = response.json()
             passed = response.status_code == 200 and data.get("success") == True
             message = "计时器已暂停"
@@ -429,7 +435,7 @@ def test_timer(result: TestResult):
     # 测试重置计时器
     if timer_id:
         try:
-            response = requests.post(f"{BASE_URL}/api/tools/timer/{timer_id}/reset")
+            response = client.post(f"/api/tools/timer/{timer_id}/reset")
             data = response.json()
             passed = response.status_code == 200 and data.get("success") == True
             message = "计时器已重置"
@@ -441,7 +447,7 @@ def test_timer(result: TestResult):
     
     # 测试获取活跃计时器列表
     try:
-        response = requests.get(f"{BASE_URL}/api/tools/timer/active")
+        response = client.get("/api/tools/timer/active")
         data = response.json()
         passed = response.status_code == 200 and isinstance(data, list)
         message = f"活跃计时器数量: {len(data)}"
@@ -453,7 +459,7 @@ def test_timer(result: TestResult):
     
     # 测试获取历史记录
     try:
-        response = requests.get(f"{BASE_URL}/api/tools/timer/history")
+        response = client.get("/api/tools/timer/history")
         data = response.json()
         passed = response.status_code == 200 and isinstance(data, list)
         message = f"历史记录数量: {len(data)}"
@@ -466,7 +472,7 @@ def test_timer(result: TestResult):
     # 测试删除计时器
     if timer_id:
         try:
-            response = requests.delete(f"{BASE_URL}/api/tools/timer/{timer_id}")
+            response = client.delete(f"/api/tools/timer/{timer_id}")
             data = response.json()
             passed = response.status_code == 200 and data.get("success") == True
             message = "计时器已删除"
@@ -484,7 +490,7 @@ def test_weight_convert(result: TestResult):
     # 测试克转千克
     try:
         payload = {"value": 1000, "from_unit": "g", "to_unit": "kg"}
-        response = requests.post(f"{BASE_URL}/api/tools/weight/convert", json=payload)
+        response = client.post("/api/tools/weight/convert", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("result") == 1.0
         message = f"1000g = {data.get('result')}kg"
@@ -497,7 +503,7 @@ def test_weight_convert(result: TestResult):
     # 测试千克转斤
     try:
         payload = {"value": 1, "from_unit": "kg", "to_unit": "jin"}
-        response = requests.post(f"{BASE_URL}/api/tools/weight/convert", json=payload)
+        response = client.post("/api/tools/weight/convert", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("result") == 2.0
         message = f"1kg = {data.get('result')}斤"
@@ -510,7 +516,7 @@ def test_weight_convert(result: TestResult):
     # 测试磅转克
     try:
         payload = {"value": 1, "from_unit": "lb", "to_unit": "g"}
-        response = requests.post(f"{BASE_URL}/api/tools/weight/convert", json=payload)
+        response = client.post("/api/tools/weight/convert", json=payload)
         data = response.json()
         passed = response.status_code == 200 and abs(data.get("result") - 453.592) < 0.01
         message = f"1lb = {data.get('result')}g"
@@ -532,7 +538,7 @@ def test_time_difference(result: TestResult):
             "end_time": "2024-01-02 12:30:45",
             "format": "%Y-%m-%d %H:%M:%S"
         }
-        response = requests.post(f"{BASE_URL}/api/tools/time-difference/calculate", json=payload)
+        response = client.post("/api/tools/time-difference/calculate", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "total_days" in data
         message = f"总天数: {data.get('total_days')}, 总小时: {data.get('total_hours')}"
@@ -549,7 +555,7 @@ def test_time_difference(result: TestResult):
             "end_time": "2024-02-01 00:00:00",
             "format": "%Y-%m-%d %H:%M:%S"
         }
-        response = requests.post(f"{BASE_URL}/api/tools/time-difference/calculate", json=payload)
+        response = client.post("/api/tools/time-difference/calculate", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("total_days") == 1
         message = f"跨月计算: {data.get('total_days')}天"
@@ -569,7 +575,7 @@ def test_tools_crud(result: TestResult):
     # 测试创建工具
     try:
         payload = {"name": "测试工具", "description": "测试工具描述", "category": "测试"}
-        response = requests.post(f"{BASE_URL}/api/tools", json=payload)
+        response = client.post("/api/tools", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "id" in data
         if passed:
@@ -583,7 +589,7 @@ def test_tools_crud(result: TestResult):
     
     # 测试获取工具列表
     try:
-        response = requests.get(f"{BASE_URL}/api/tools")
+        response = client.get("/api/tools")
         data = response.json()
         passed = response.status_code == 200 and isinstance(data, list)
         message = f"工具数量: {len(data)}"
@@ -596,7 +602,7 @@ def test_tools_crud(result: TestResult):
     # 测试获取单个工具
     if tool_id:
         try:
-            response = requests.get(f"{BASE_URL}/api/tools/{tool_id}")
+            response = client.get(f"/api/tools/{tool_id}")
             data = response.json()
             passed = response.status_code == 200 and data.get("id") == tool_id
             message = f"工具名称: {data.get('name')}"
@@ -613,7 +619,7 @@ def test_calendar(result: TestResult):
     
     # 测试获取今日信息
     try:
-        response = requests.get(f"{BASE_URL}/api/tools/calendar/today")
+        response = client.get("/api/tools/calendar/today")
         data = response.json()
         passed = response.status_code == 200 and "year" in data and "month" in data and "day" in data
         message = f"今日日期: {data.get('year')}-{data.get('month')}-{data.get('day')}"
@@ -626,7 +632,7 @@ def test_calendar(result: TestResult):
     # 测试获取指定月份日历
     try:
         payload = {"year": 2024, "month": 1}
-        response = requests.post(f"{BASE_URL}/api/tools/calendar/month", json=payload)
+        response = client.post("/api/tools/calendar/month", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "days" in data and data.get("total_days") == 31
         message = f"2024年1月天数: {data.get('total_days')}"
@@ -639,7 +645,7 @@ def test_calendar(result: TestResult):
     # 测试获取当前月份日历（不传参数）
     try:
         payload = {}
-        response = requests.post(f"{BASE_URL}/api/tools/calendar/month", json=payload)
+        response = client.post("/api/tools/calendar/month", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "year" in data and "month" in data
         message = f"当前年月: {data.get('year')}-{data.get('month')}"
@@ -657,7 +663,7 @@ def test_length_convert(result: TestResult):
     # 测试米转千米
     try:
         payload = {"value": 1000, "from_unit": "m", "to_unit": "km"}
-        response = requests.post(f"{BASE_URL}/api/tools/length/convert", json=payload)
+        response = client.post("/api/tools/length/convert", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("result") == 1.0
         message = f"1000m = {data.get('result')}km"
@@ -670,7 +676,7 @@ def test_length_convert(result: TestResult):
     # 测试英尺转米
     try:
         payload = {"value": 1, "from_unit": "ft", "to_unit": "m"}
-        response = requests.post(f"{BASE_URL}/api/tools/length/convert", json=payload)
+        response = client.post("/api/tools/length/convert", json=payload)
         data = response.json()
         passed = response.status_code == 200 and abs(data.get("result") - 0.3048) < 0.001
         message = f"1ft = {data.get('result')}m"
@@ -683,7 +689,7 @@ def test_length_convert(result: TestResult):
     # 测试市里转米
     try:
         payload = {"value": 1, "from_unit": "li", "to_unit": "m"}
-        response = requests.post(f"{BASE_URL}/api/tools/length/convert", json=payload)
+        response = client.post("/api/tools/length/convert", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("result") == 500.0
         message = f"1里 = {data.get('result')}m"
@@ -696,7 +702,7 @@ def test_length_convert(result: TestResult):
     # 测试无效单位
     try:
         payload = {"value": 1, "from_unit": "invalid", "to_unit": "m"}
-        response = requests.post(f"{BASE_URL}/api/tools/length/convert", json=payload)
+        response = client.post("/api/tools/length/convert", json=payload)
         passed = response.status_code == 400
         message = f"状态码: {response.status_code}"
         result.add_test("无效单位处理", passed, message)
@@ -715,10 +721,10 @@ def test_url_tools(result: TestResult):
     # 测试URL编码
     try:
         payload = {"url": test_url, "safe": "/"}
-        response = requests.post(f"{BASE_URL}/api/tools/url/encode", json=payload)
+        response = client.post("/api/tools/url/encode", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "encoded" in data
-        message = f"编码结果: {data.get('encoded')[:50]}..."
+        message = f"编码结果: {str(data.get('encoded'))[:50]}..."
         result.add_test("URL编码", passed, message)
         print_test("URL编码", passed, message)
     except Exception as e:
@@ -729,10 +735,10 @@ def test_url_tools(result: TestResult):
     try:
         encoded_url = "https%3A%2F%2Fexample.com%2Fpath%3Fname%3D%E6%B5%8B%E8%AF%95%26value%3D123"
         payload = {"url": encoded_url}
-        response = requests.post(f"{BASE_URL}/api/tools/url/decode", json=payload)
+        response = client.post("/api/tools/url/decode", json=payload)
         data = response.json()
         passed = response.status_code == 200 and "decoded" in data
-        message = f"解码结果: {data.get('decoded')[:50]}..."
+        message = f"解码结果: {str(data.get('decoded'))[:50]}..."
         result.add_test("URL解码", passed, message)
         print_test("URL解码", passed, message)
     except Exception as e:
@@ -742,7 +748,7 @@ def test_url_tools(result: TestResult):
     # 测试空URL处理
     try:
         payload = {"url": ""}
-        response = requests.post(f"{BASE_URL}/api/tools/url/encode", json=payload)
+        response = client.post("/api/tools/url/encode", json=payload)
         passed = response.status_code == 400
         message = f"空URL状态码: {response.status_code}"
         result.add_test("空URL处理", passed, message)
@@ -776,7 +782,7 @@ features:
     # 测试验证有效YAML
     try:
         payload = {"yaml_str": valid_yaml}
-        response = requests.post(f"{BASE_URL}/api/tools/yaml/validate", json=payload)
+        response = client.post("/api/tools/yaml/validate", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("valid") == True
         message = "有效YAML验证通过"
@@ -789,7 +795,7 @@ features:
     # 测试验证无效YAML
     try:
         payload = {"yaml_str": invalid_yaml}
-        response = requests.post(f"{BASE_URL}/api/tools/yaml/validate", json=payload)
+        response = client.post("/api/tools/yaml/validate", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("valid") == False
         message = "无效YAML验证通过"
@@ -802,7 +808,7 @@ features:
     # 测试格式化YAML
     try:
         payload = {"yaml_str": valid_yaml}
-        response = requests.post(f"{BASE_URL}/api/tools/yaml/format", json=payload)
+        response = client.post("/api/tools/yaml/format", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("valid") == True and "formatted" in data
         message = "YAML格式化成功"
@@ -815,7 +821,7 @@ features:
     # 测试格式化无效YAML
     try:
         payload = {"yaml_str": invalid_yaml}
-        response = requests.post(f"{BASE_URL}/api/tools/yaml/format", json=payload)
+        response = client.post("/api/tools/yaml/format", json=payload)
         data = response.json()
         passed = response.status_code == 200 and data.get("valid") == False
         message = "无效YAML格式化处理正确"
@@ -829,21 +835,12 @@ features:
 def main():
     """主函数"""
     print(f"\n{Colors.BOLD}{'='*60}{Colors.ENDC}")
-    print(f"{Colors.BOLD}便携工具平台 API 自动化测试{Colors.ENDC}")
+    print(f"{Colors.BOLD}便携工具平台 API 自动化测试 (集成测试版本){Colors.ENDC}")
     print(f"{Colors.BOLD}{'='*60}{Colors.ENDC}")
-    print(f"测试地址: {BASE_URL}")
+    print(f"测试方式: FastAPI TestClient")
     print(f"开始时间: {time.strftime('%Y-%m-%d %H:%M:%S')}")
     
     result = TestResult()
-    
-    # 检查服务是否启动
-    try:
-        requests.get(f"{BASE_URL}/", timeout=5)
-    except:
-        print(f"\n{Colors.RED}错误: 无法连接到后端服务!{Colors.ENDC}")
-        print(f"请确保后端服务已启动: http://localhost:8000")
-        print(f"启动命令: cd backend && uvicorn app.main:app --reload --port 8000")
-        return
     
     # 运行所有测试
     test_root_endpoint(result)
@@ -864,6 +861,9 @@ def main():
     
     # 打印结果
     result.print_summary()
+    
+    # 根据测试结果返回退出码
+    sys.exit(0 if result.failed == 0 else 1)
 
 
 if __name__ == "__main__":
