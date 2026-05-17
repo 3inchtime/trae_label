@@ -44,6 +44,14 @@ def get_user(db: Session, username: str):
     return db.query(models.User).filter(models.User.username == username).first()
 
 
+def get_user_by_email(db: Session, email: str):
+    return db.query(models.User).filter(models.User.email == email).first()
+
+
+def get_user_by_phone(db: Session, phone: str):
+    return db.query(models.User).filter(models.User.phone == phone).first()
+
+
 @router.post("/register", response_model=schemas.User)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = get_user(db, username=user.username)
@@ -52,9 +60,23 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="用户名已存在"
         )
+    db_user = get_user_by_email(db, email=user.email)
+    if db_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="邮箱已被注册"
+        )
+    db_user = get_user_by_phone(db, phone=user.phone)
+    if db_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="手机号已被注册"
+        )
     hashed_password = get_password_hash(user.password)
     db_user = models.User(
         username=user.username,
+        email=user.email,
+        phone=user.phone,
         hashed_password=hashed_password
     )
     db.add(db_user)

@@ -24,13 +24,16 @@ class Tool(ToolBase):
 
 class UserBase(BaseModel):
     username: str
+    email: str
+    phone: str
 
 
 class UserCreate(UserBase):
     password: str
 
 
-class UserLogin(UserBase):
+class UserLogin(BaseModel):
+    username: str
     password: str
 
 

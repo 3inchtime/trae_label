@@ -19,6 +19,28 @@
           />
         </div>
         
+        <div v-if="!isLogin" class="form-group">
+          <label for="email">邮箱</label>
+          <input
+            id="email"
+            v-model="form.email"
+            type="email"
+            placeholder="请输入邮箱地址"
+            required
+          />
+        </div>
+        
+        <div v-if="!isLogin" class="form-group">
+          <label for="phone">手机号</label>
+          <input
+            id="phone"
+            v-model="form.phone"
+            type="tel"
+            placeholder="请输入手机号"
+            required
+          />
+        </div>
+        
         <div class="form-group">
           <label for="password">密码</label>
           <div class="password-input-wrapper">
@@ -103,6 +125,8 @@ const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const form = ref({
   username: '',
+  email: '',
+  phone: '',
   password: '',
   confirmPassword: ''
 })
@@ -141,6 +165,9 @@ watch(() => form.value.password, (newPassword) => {
 
 const toggleMode = () => {
   isLogin.value = !isLogin.value
+  form.value.email = ''
+  form.value.phone = ''
+  form.value.password = ''
   form.value.confirmPassword = ''
 }
 
@@ -150,14 +177,23 @@ const handleSubmit = async () => {
     return
   }
   
-  if (!isLogin.value && form.value.password !== form.value.confirmPassword) {
-    alert('两次输入的密码不一致，请检查')
-    return
-  }
-  
-  if (!isLogin.value && passwordStrength.value < 2) {
-    alert('密码强度太弱，请设置更复杂的密码（建议包含大小写字母、数字和特殊字符）')
-    return
+  if (!isLogin.value) {
+    if (!form.value.email) {
+      alert('请填写邮箱地址')
+      return
+    }
+    if (!form.value.phone) {
+      alert('请填写手机号')
+      return
+    }
+    if (form.value.password !== form.value.confirmPassword) {
+      alert('两次输入的密码不一致，请检查')
+      return
+    }
+    if (passwordStrength.value < 2) {
+      alert('密码强度太弱，请设置更复杂的密码（建议包含大小写字母、数字和特殊字符）')
+      return
+    }
   }
   
   loading.value = true

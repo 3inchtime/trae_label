@@ -826,6 +826,132 @@ features:
         print_test("格式化无效YAML", False, str(e))
 
 
+def test_auth(result: TestResult):
+    """测试认证功能（注册、登录）"""
+    print_section("认证功能测试")
+    
+    timestamp = int(time.time())
+    test_username = f"testuser_{timestamp}"
+    test_email = f"test_{timestamp}@example.com"
+    test_phone = f"138{timestamp:08d}"
+    test_password = "TestPass123!"
+    
+    # 测试成功注册
+    try:
+        payload = {
+            "username": test_username,
+            "email": test_email,
+            "phone": test_phone,
+            "password": test_password
+        }
+        response = requests.post(f"{BASE_URL}/api/auth/register", json=payload)
+        data = response.json()
+        passed = response.status_code == 200 and data.get("username") == test_username and data.get("email") == test_email
+        message = f"注册成功: {data.get('username')}"
+        result.add_test("成功注册", passed, message)
+        print_test("成功注册", passed, message)
+    except Exception as e:
+        result.add_test("成功注册", False, str(e))
+        print_test("成功注册", False, str(e))
+    
+    # 测试用户名重复注册
+    try:
+        payload = {
+            "username": test_username,
+            "email": f"another_{timestamp}@example.com",
+            "phone": f"139{timestamp:08d}",
+            "password": test_password
+        }
+        response = requests.post(f"{BASE_URL}/api/auth/register", json=payload)
+        passed = response.status_code == 400 and "用户名已存在" in response.json().get("detail", "")
+        message = f"状态码: {response.status_code}, 消息: {response.json().get('detail', '')}"
+        result.add_test("用户名重复注册", passed, message)
+        print_test("用户名重复注册", passed, message)
+    except Exception as e:
+        result.add_test("用户名重复注册", False, str(e))
+        print_test("用户名重复注册", False, str(e))
+    
+    # 测试邮箱重复注册
+    try:
+        payload = {
+            "username": f"another_user_{timestamp}",
+            "email": test_email,
+            "phone": f"139{timestamp:08d}",
+            "password": test_password
+        }
+        response = requests.post(f"{BASE_URL}/api/auth/register", json=payload)
+        passed = response.status_code == 400 and "邮箱已被注册" in response.json().get("detail", "")
+        message = f"状态码: {response.status_code}, 消息: {response.json().get('detail', '')}"
+        result.add_test("邮箱重复注册", passed, message)
+        print_test("邮箱重复注册", passed, message)
+    except Exception as e:
+        result.add_test("邮箱重复注册", False, str(e))
+        print_test("邮箱重复注册", False, str(e))
+    
+    # 测试手机号重复注册
+    try:
+        payload = {
+            "username": f"another_user2_{timestamp}",
+            "email": f"another2_{timestamp}@example.com",
+            "phone": test_phone,
+            "password": test_password
+        }
+        response = requests.post(f"{BASE_URL}/api/auth/register", json=payload)
+        passed = response.status_code == 400 and "手机号已被注册" in response.json().get("detail", "")
+        message = f"状态码: {response.status_code}, 消息: {response.json().get('detail', '')}"
+        result.add_test("手机号重复注册", passed, message)
+        print_test("手机号重复注册", passed, message)
+    except Exception as e:
+        result.add_test("手机号重复注册", False, str(e))
+        print_test("手机号重复注册", False, str(e))
+    
+    # 测试成功登录
+    try:
+        payload = {
+            "username": test_username,
+            "password": test_password
+        }
+        response = requests.post(f"{BASE_URL}/api/auth/login", json=payload)
+        data = response.json()
+        passed = response.status_code == 200 and "access_token" in data and data.get("user", {}).get("username") == test_username
+        message = f"登录成功: {data.get('user', {}).get('username')}"
+        result.add_test("成功登录", passed, message)
+        print_test("成功登录", passed, message)
+    except Exception as e:
+        result.add_test("成功登录", False, str(e))
+        print_test("成功登录", False, str(e))
+    
+    # 测试错误密码登录
+    try:
+        payload = {
+            "username": test_username,
+            "password": "wrong_password"
+        }
+        response = requests.post(f"{BASE_URL}/api/auth/login", json=payload)
+        passed = response.status_code == 401
+        message = f"状态码: {response.status_code}"
+        result.add_test("错误密码登录", passed, message)
+        print_test("错误密码登录", passed, message)
+    except Exception as e:
+        result.add_test("错误密码登录", False, str(e))
+        print_test("错误密码登录", False, str(e))
+    
+    # 测试不存在用户登录
+    try:
+        payload = {
+            "username": f"nonexistent_{timestamp}",
+            "password": test_password
+        }
+        response = requests.post(f"{BASE_URL}/api/auth/login", json=payload)
+        passed = response.status_code == 401
+        message = f"状态码: {response.status_code}"
+        result.add_test("不存在用户登录", passed, message)
+        print_test("不存在用户登录", passed, message)
+    except Exception as e:
+        result.add_test("不存在用户登录", False, str(e))
+        print_test("不存在用户登录", False, str(e))
+
+
 def main():
     """主函数"""
     print(f"\n{Colors.BOLD}{'='*60}{Colors.ENDC}")
@@ -848,6 +974,7 @@ def main():
     # 运行所有测试
     test_root_endpoint(result)
     test_health_check(result)
+    test_auth(result)
     test_timestamp(result)
     test_json_tools(result)
     test_md5_tools(result)
