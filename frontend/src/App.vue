@@ -12,6 +12,21 @@
             <span>首页</span>
           </router-link>
         </div>
+        <div class="nav-auth">
+          <div v-if="user" class="user-info">
+            <div class="user-avatar">
+              <Icon name="user" :size="18" />
+            </div>
+            <span class="username">{{ user.username }}</span>
+            <button @click="logout" class="logout-btn" title="退出登录">
+              <Icon name="lock" :size="16" />
+            </button>
+          </div>
+          <router-link v-else to="/auth" class="login-btn">
+            <Icon name="user" :size="18" />
+            <span>登录/注册</span>
+          </router-link>
+        </div>
         <button @click="toggleDarkMode" class="theme-toggle" :title="isDark ? '切换到浅色模式' : '切换到深色模式'">
           <Icon :name="isDark ? 'sun' : 'moon'" :size="20" />
         </button>
@@ -78,18 +93,37 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import Icon from './components/Icon.vue'
 
+const router = useRouter()
 const isDark = ref(false)
+const user = ref(null)
 
 const toggleDarkMode = () => {
   isDark.value = !isDark.value
+}
+
+const logout = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+  user.value = null
+  router.push('/')
 }
 
 onMounted(() => {
   const savedTheme = localStorage.getItem('theme')
   if (savedTheme === 'dark') {
     isDark.value = true
+  }
+  
+  const savedUser = localStorage.getItem('user')
+  if (savedUser) {
+    try {
+      user.value = JSON.parse(savedUser)
+    } catch (e) {
+      localStorage.removeItem('user')
+    }
   }
 })
 
@@ -156,6 +190,83 @@ watch(isDark, (newValue) => {
   align-items: center;
   gap: 0.5rem;
   flex: 1;
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-right: 0.5rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0.875rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.username {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.logout-btn {
+  padding: 0.375rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-btn:hover {
+  color: var(--accent-danger, #ef4444);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.login-btn:active {
+  transform: translateY(0);
 }
 
 .nav-link {
@@ -367,7 +478,7 @@ watch(isDark, (newValue) => {
 @media (max-width: 768px) {
   .nav-container {
     padding: 0 1rem;
-    gap: 1rem;
+    gap: 0.75rem;
     height: 64px;
   }
   
@@ -381,6 +492,23 @@ watch(isDark, (newValue) => {
   
   .nav-link span {
     display: none;
+  }
+  
+  .nav-auth {
+    margin-right: 0;
+    gap: 0.5rem;
+  }
+  
+  .username {
+    display: none;
+  }
+  
+  .login-btn span {
+    display: none;
+  }
+  
+  .login-btn {
+    padding: 0.5rem;
   }
   
   .sidebar {

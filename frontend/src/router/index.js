@@ -15,6 +15,7 @@ import ColorPicker from '../views/ColorPicker.vue'
 import UrlTool from '../views/UrlTool.vue'
 import YamlTool from '../views/YamlTool.vue'
 import ReactionTest from '../views/ReactionTest.vue'
+import Auth from '../views/Auth.vue'
 
 const routes = [
   {
@@ -96,6 +97,11 @@ const routes = [
     path: '/tools/reaction-test',
     name: 'ReactionTest',
     component: ReactionTest
+  },
+  {
+    path: '/auth',
+    name: 'Auth',
+    component: Auth
   }
 ]
 

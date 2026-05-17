@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from . import models
 from .database import engine
-from .routers import tools, timestamp, json_tools, md5_tools, number_chinese, rsa_tools, timer, weight_convert, time_difference, calendar, length_convert, url_tools, yaml_tools
+from .routers import tools, timestamp, json_tools, md5_tools, number_chinese, rsa_tools, timer, weight_convert, time_difference, calendar, length_convert, url_tools, yaml_tools, auth
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -29,6 +29,7 @@ def health_check():
 
 
 app.include_router(tools.router, prefix="/api")
+app.include_router(auth.router, prefix="/api")
 app.include_router(timestamp.router, prefix="/api/tools")
 app.include_router(json_tools.router, prefix="/api/tools")
 app.include_router(md5_tools.router, prefix="/api/tools")

@@ -22,6 +22,36 @@ class Tool(ToolBase):
         from_attributes = True
 
 
+class UserBase(BaseModel):
+    username: str
+
+
+class UserCreate(UserBase):
+    password: str
+
+
+class UserLogin(UserBase):
+    password: str
+
+
+class User(UserBase):
+    id: int
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+    user: User
+
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
+
 class TimestampConvertRequest(BaseModel):
     timestamp: Optional[int] = None
     datetime_str: Optional[str] = None
