@@ -21,24 +21,34 @@
         
         <div class="form-group">
           <label for="password">密码</label>
-          <input
-            id="password"
-            v-model="form.password"
-            type="password"
-            placeholder="请输入密码"
-            required
-          />
+          <div class="password-input-wrapper">
+            <input
+              id="password"
+              v-model="form.password"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="请输入密码"
+              required
+            />
+            <button type="button" class="toggle-password-btn" @click="showPassword = !showPassword">
+              <Icon :name="showPassword ? 'eye-off' : 'eye'" :size="20" />
+            </button>
+          </div>
         </div>
         
         <div v-if="!isLogin" class="form-group">
           <label for="confirmPassword">确认密码</label>
-          <input
-            id="confirmPassword"
-            v-model="form.confirmPassword"
-            type="password"
-            placeholder="请再次输入密码"
-            required
-          />
+          <div class="password-input-wrapper">
+            <input
+              id="confirmPassword"
+              v-model="form.confirmPassword"
+              :type="showConfirmPassword ? 'text' : 'password'"
+              placeholder="请再次输入密码"
+              required
+            />
+            <button type="button" class="toggle-password-btn" @click="showConfirmPassword = !showConfirmPassword">
+              <Icon :name="showConfirmPassword ? 'eye-off' : 'eye'" :size="20" />
+            </button>
+          </div>
         </div>
         
         <button type="submit" class="submit-btn" :disabled="loading">
@@ -76,6 +86,8 @@ import { login, register } from '../api/index.js'
 const router = useRouter()
 const isLogin = ref(true)
 const loading = ref(false)
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
 const form = ref({
   username: '',
   password: '',
@@ -225,6 +237,37 @@ const continueAsGuest = () => {
 
 .form-group input::placeholder {
   color: var(--text-tertiary);
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 3rem;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-normal);
+}
+
+.toggle-password-btn:hover {
+  color: var(--accent-primary);
 }
 
 .submit-btn {
