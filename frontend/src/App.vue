@@ -39,6 +39,10 @@
             <Icon name="money" :size="18" />
             <span>数字转中文</span>
           </router-link>
+          <router-link to="/tools/number-to-english" class="sidebar-link" :class="{ active: $route.path === '/tools/number-to-english' }">
+            <Icon name="money" :size="18" />
+            <span>数字转英文</span>
+          </router-link>
           <router-link to="/tools/rsa" class="sidebar-link" :class="{ active: $route.path === '/tools/rsa' }">
             <Icon name="lock" :size="18" />
             <span>RSA加密解密</span>

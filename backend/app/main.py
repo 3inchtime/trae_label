@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from . import models
 from .database import engine
-from .routers import tools, timestamp, json_tools, md5_tools, number_chinese, rsa_tools, timer, weight_convert, time_difference, calendar, length_convert
+from .routers import tools, timestamp, json_tools, md5_tools, number_chinese, number_english, rsa_tools, timer, weight_convert, time_difference, calendar, length_convert
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -33,6 +33,7 @@ app.include_router(timestamp.router, prefix="/api/tools")
 app.include_router(json_tools.router, prefix="/api/tools")
 app.include_router(md5_tools.router, prefix="/api/tools")
 app.include_router(number_chinese.router, prefix="/api/tools")
+app.include_router(number_english.router, prefix="/api/tools")
 app.include_router(rsa_tools.router, prefix="/api/tools")
 app.include_router(timer.router, prefix="/api/tools")
 app.include_router(weight_convert.router, prefix="/api/tools")

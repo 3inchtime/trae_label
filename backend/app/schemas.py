@@ -77,6 +77,15 @@ class NumberToChineseResponse(BaseModel):
     chinese: str
 
 
+class NumberToEnglishRequest(BaseModel):
+    number: float
+
+
+class NumberToEnglishResponse(BaseModel):
+    number: float
+    english: str
+
+
 class RsaKeyGenerateRequest(BaseModel):
     key_size: Optional[int] = 2048
 

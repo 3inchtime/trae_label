@@ -5,6 +5,7 @@ import TimestampTool from '../views/TimestampTool.vue'
 import JsonTool from '../views/JsonTool.vue'
 import Md5Tool from '../views/Md5Tool.vue'
 import NumberToChinese from '../views/NumberToChinese.vue'
+import NumberToEnglish from '../views/NumberToEnglish.vue'
 import RsaTool from '../views/RsaTool.vue'
 import TimerTool from '../views/TimerTool.vue'
 import WeightConverter from '../views/WeightConverter.vue'
@@ -42,6 +43,11 @@ const routes = [
     path: '/tools/number-to-chinese',
     name: 'NumberToChinese',
     component: NumberToChinese
+  },
+  {
+    path: '/tools/number-to-english',
+    name: 'NumberToEnglish',
+    component: NumberToEnglish
   },
   {
     path: '/tools/rsa',
