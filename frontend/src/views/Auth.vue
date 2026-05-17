@@ -385,24 +385,46 @@ const continueAsGuest = () => {
 .submit-btn {
   margin-top: 0.5rem;
   padding: 1rem;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.7) 0%, rgba(37, 99, 235, 0.8) 30%, rgba(14, 165, 233, 0.7) 70%, rgba(59, 130, 246, 0.8) 100%);
+  background-size: 300% 300%;
   color: white;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--radius-md);
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
   transition: all var(--transition-normal);
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  animation: gradientShift 6s ease infinite;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+  transition: left var(--transition-slow);
+}
+
+.submit-btn:hover:not(:disabled)::before {
+  left: 100%;
 }
 
 .submit-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 35px rgba(59, 130, 246, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .submit-btn:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(-1px);
 }
 
 .submit-btn:disabled {
@@ -467,20 +489,26 @@ const continueAsGuest = () => {
   align-items: center;
   gap: 0.5rem;
   padding: 0.875rem 1.5rem;
-  background: var(--glass-bg);
-  border: 2px solid var(--glass-border);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(59, 130, 246, 0.1) 50%, rgba(139, 92, 246, 0.1) 100%);
+  background-size: 300% 300%;
+  border: 1px solid rgba(99, 102, 241, 0.3);
   border-radius: var(--radius-md);
-  color: var(--text-primary);
+  color: var(--accent-primary);
   font-weight: 600;
   cursor: pointer;
   transition: all var(--transition-normal);
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  animation: gradientShift 15s ease infinite;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .guest-btn:hover {
-  border-color: var(--accent-primary);
-  color: var(--accent-primary);
-  background: rgba(59, 130, 246, 0.08);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(59, 130, 246, 0.2) 50%, rgba(139, 92, 246, 0.2) 100%);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: var(--accent-secondary);
   transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(99, 102, 241, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 480px) {
