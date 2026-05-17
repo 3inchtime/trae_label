@@ -33,6 +33,19 @@
               <Icon :name="showPassword ? 'eye-off' : 'eye'" :size="20" />
             </button>
           </div>
+          <div v-if="!isLogin && form.password" class="password-strength">
+            <div class="strength-bars">
+              <div 
+                v-for="i in 4" 
+                :key="i" 
+                class="strength-bar"
+                :style="{ backgroundColor: i <= passwordStrength ? getStrengthColor() : 'var(--bg-tertiary)' }"
+              ></div>
+            </div>
+            <span class="strength-text" :style="{ color: getStrengthColor() }">
+              {{ getStrengthText() }}
+            </span>
+          </div>
         </div>
         
         <div v-if="!isLogin" class="form-group">
@@ -78,7 +91,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Icon from '../components/Icon.vue'
 import { login, register } from '../api/index.js'
@@ -94,6 +107,38 @@ const form = ref({
   confirmPassword: ''
 })
 
+const passwordStrength = ref(0)
+
+const calculatePasswordStrength = (password) => {
+  if (!password) return 0
+  let score = 0
+  
+  if (password.length >= 6) score += 1
+  if (password.length >= 10) score += 1
+  if (password.length >= 14) score += 1
+  
+  if (/[a-z]/.test(password)) score += 1
+  if (/[A-Z]/.test(password)) score += 1
+  if (/[0-9]/.test(password)) score += 1
+  if (/[^a-zA-Z0-9]/.test(password)) score += 1
+  
+  return Math.min(score, 4)
+}
+
+const getStrengthText = () => {
+  const texts = ['', '弱', '中等', '强', '非常强']
+  return texts[passwordStrength.value] || ''
+}
+
+const getStrengthColor = () => {
+  const colors = ['', '#ef4444', '#f59e0b', '#10b981', '#059669']
+  return colors[passwordStrength.value] || ''
+}
+
+watch(() => form.value.password, (newPassword) => {
+  passwordStrength.value = calculatePasswordStrength(newPassword)
+})
+
 const toggleMode = () => {
   isLogin.value = !isLogin.value
   form.value.confirmPassword = ''
@@ -107,6 +152,11 @@ const handleSubmit = async () => {
   
   if (!isLogin.value && form.value.password !== form.value.confirmPassword) {
     alert('两次输入的密码不一致，请检查')
+    return
+  }
+  
+  if (!isLogin.value && passwordStrength.value < 2) {
+    alert('密码强度太弱，请设置更复杂的密码（建议包含大小写字母、数字和特殊字符）')
     return
   }
   
@@ -268,6 +318,32 @@ const continueAsGuest = () => {
 
 .toggle-password-btn:hover {
   color: var(--accent-primary);
+}
+
+.password-strength {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.strength-bars {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.strength-bar {
+  height: 4px;
+  flex: 1;
+  border-radius: 2px;
+  transition: background-color var(--transition-normal);
+}
+
+.strength-text {
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .submit-btn {
