@@ -9,6 +9,7 @@ import RsaTool from '../views/RsaTool.vue'
 import TimerTool from '../views/TimerTool.vue'
 import WeightConverter from '../views/WeightConverter.vue'
 import TimeDifferenceTool from '../views/TimeDifferenceTool.vue'
+import TemperatureConverter from '../views/TemperatureConverter.vue'
 
 const routes = [
   {
@@ -60,6 +61,11 @@ const routes = [
     path: '/tools/time-difference',
     name: 'TimeDifferenceTool',
     component: TimeDifferenceTool
+  },
+  {
+    path: '/tools/temperature',
+    name: 'TemperatureConverter',
+    component: TemperatureConverter
   }
 ]
 

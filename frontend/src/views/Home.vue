@@ -125,6 +125,21 @@
             </svg>
           </div>
         </router-link>
+        
+        <router-link to="/tools/temperature" class="tool-card">
+          <div class="tool-icon-wrapper temperature">
+            <Icon name="sun" :size="28" />
+          </div>
+          <div class="tool-content">
+            <h3>温度单位换算</h3>
+            <p>支持摄氏度、华氏度、开尔文、兰金度等多种温度单位的相互转换</p>
+          </div>
+          <div class="tool-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -227,6 +242,11 @@ import Icon from '../components/Icon.vue'
 .tool-icon-wrapper.time-diff {
   background: rgba(34, 197, 94, 0.1);
   color: #22c55e;
+}
+
+.tool-icon-wrapper.temperature {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
 }
 
 .tool-content {

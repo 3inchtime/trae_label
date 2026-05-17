@@ -167,3 +167,16 @@ class TimeDifferenceResponse(BaseModel):
     total_hours: int
     total_minutes: int
     total_seconds: int
+
+
+class TemperatureConvertRequest(BaseModel):
+    value: float
+    from_unit: str
+    to_unit: str
+
+
+class TemperatureConvertResponse(BaseModel):
+    value: float
+    from_unit: str
+    to_unit: str
+    result: float
