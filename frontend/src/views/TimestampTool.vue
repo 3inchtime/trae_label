@@ -245,7 +245,7 @@ onMounted(() => {
   -webkit-backdrop-filter: var(--glass-backdrop);
   border-radius: var(--radius-xl);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-glass);
+  box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
 }
@@ -306,7 +306,7 @@ onMounted(() => {
   padding: 1.75rem;
   margin-bottom: 1.5rem;
   transition: all var(--transition-normal);
-  box-shadow: var(--shadow-glass);
+  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
 }
@@ -327,8 +327,8 @@ onMounted(() => {
 }
 
 .card:hover {
-  border-color: var(--accent-primary);
-  box-shadow: 0 12px 40px rgba(59, 130, 246, 0.18);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-lg), 0 12px 40px rgba(59, 130, 246, 0.15);
   transform: translateY(-4px);
 }
 

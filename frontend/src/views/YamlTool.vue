@@ -145,7 +145,7 @@ const copyToClipboard = (text) => {
   width: 56px;
   height: 56px;
   border-radius: var(--radius-lg);
-  background: rgba(99, 102, 241, 0.1);
+  background: rgba(59, 130, 246, 0.1);
   color: var(--accent-secondary);
   display: flex;
   align-items: center;
@@ -219,7 +219,7 @@ const copyToClipboard = (text) => {
 .yaml-textarea:focus {
   outline: none;
   border-color: var(--accent-secondary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .button-group {

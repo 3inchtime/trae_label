@@ -245,7 +245,7 @@ onMounted(() => {
   width: 56px;
   height: 56px;
   border-radius: var(--radius-lg);
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(14, 165, 233, 0.1);
   color: #8b5cf6;
   display: flex;
   align-items: center;
@@ -290,8 +290,8 @@ onMounted(() => {
 }
 
 .today-card {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
-  border-color: rgba(139, 92, 246, 0.2);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(59, 130, 246, 0.1));
+  border-color: rgba(14, 165, 233, 0.2);
 }
 
 .today-header {
