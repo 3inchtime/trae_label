@@ -115,5 +115,14 @@ export const toolsConfig = [
     shortDescription: '验证YAML格式，支持格式化和错误定位',
     icon: 'code',
     iconClass: 'yaml'
+  },
+  {
+    id: 'reaction-test',
+    path: '/tools/reaction-test',
+    name: '反应速度测试',
+    description: '测试你的反应速度，当颜色变为绿色时尽快点击，记录反应时间',
+    shortDescription: '测试你的反应速度，颜色变绿时尽快点击',
+    icon: 'zap',
+    iconClass: 'reaction'
   }
 ]

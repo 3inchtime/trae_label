@@ -14,6 +14,7 @@ import LengthConverter from '../views/LengthConverter.vue'
 import ColorPicker from '../views/ColorPicker.vue'
 import UrlTool from '../views/UrlTool.vue'
 import YamlTool from '../views/YamlTool.vue'
+import ReactionTest from '../views/ReactionTest.vue'
 
 const routes = [
   {
@@ -90,6 +91,11 @@ const routes = [
     path: '/tools/yaml',
     name: 'YamlTool',
     component: YamlTool
+  },
+  {
+    path: '/tools/reaction-test',
+    name: 'ReactionTest',
+    component: ReactionTest
   }
 ]
 
