@@ -228,3 +228,15 @@ class UrlDecodeRequest(BaseModel):
 class UrlDecodeResponse(BaseModel):
     original: str
     decoded: str
+
+
+class YamlValidateRequest(BaseModel):
+    yaml_str: str
+
+
+class YamlValidateResponse(BaseModel):
+    valid: bool
+    formatted: Optional[str] = None
+    error: Optional[str] = None
+    line: Optional[int] = None
+    column: Optional[int] = None

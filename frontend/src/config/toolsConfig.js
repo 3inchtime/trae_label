@@ -106,5 +106,14 @@ export const toolsConfig = [
     shortDescription: '对URL或文本进行编码和解码，支持自定义安全字符',
     icon: 'link',
     iconClass: 'url'
+  },
+  {
+    id: 'yaml',
+    path: '/tools/yaml',
+    name: 'YAML 格式校验',
+    description: '验证YAML格式正确性，支持格式化和错误行号、列号定位',
+    shortDescription: '验证YAML格式，支持格式化和错误定位',
+    icon: 'code',
+    iconClass: 'yaml'
   }
 ]

@@ -13,6 +13,7 @@ import CalendarTool from '../views/CalendarTool.vue'
 import LengthConverter from '../views/LengthConverter.vue'
 import ColorPicker from '../views/ColorPicker.vue'
 import UrlTool from '../views/UrlTool.vue'
+import YamlTool from '../views/YamlTool.vue'
 
 const routes = [
   {
@@ -84,6 +85,11 @@ const routes = [
     path: '/tools/url',
     name: 'UrlTool',
     component: UrlTool
+  },
+  {
+    path: '/tools/yaml',
+    name: 'YamlTool',
+    component: YamlTool
   }
 ]
 

@@ -42,4 +42,7 @@ export const convertLength = (data) => api.post('/tools/length/convert', data)
 export const urlEncode = (data) => api.post('/tools/url/encode', data)
 export const urlDecode = (data) => api.post('/tools/url/decode', data)
 
+export const validateYaml = (data) => api.post('/tools/yaml/validate', data)
+export const formatYaml = (data) => api.post('/tools/yaml/format', data)
+
 export default api
