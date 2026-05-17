@@ -96,6 +96,9 @@
     <line v-if="name === 'calendar'" x1="16" y1="2" x2="16" y2="6" />
     <line v-if="name === 'calendar'" x1="8" y1="2" x2="8" y2="6" />
     <line v-if="name === 'calendar'" x1="3" y1="10" x2="21" y2="10" />
+    
+    <path v-if="name === 'ruler'" d="M3 7h18M3 12h18M3 17h18M8 7v5M13 7v10M18 7v5" />
+    <rect v-if="name === 'ruler'" x="2" y="3" width="20" height="18" rx="2" />
   </svg>
 </template>
 

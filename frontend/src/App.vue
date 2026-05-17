@@ -59,6 +59,10 @@
             <Icon name="calendar" :size="18" />
             <span>万年历</span>
           </router-link>
+          <router-link to="/tools/length" class="sidebar-link" :class="{ active: $route.path === '/tools/length' }">
+            <Icon name="ruler" :size="18" />
+            <span>长度单位换算</span>
+          </router-link>
         </nav>
       </aside>
       <main class="main-content">

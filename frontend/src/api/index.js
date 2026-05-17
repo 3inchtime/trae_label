@@ -38,4 +38,6 @@ export const calculateTimeDifference = (data) => api.post('/tools/time-differenc
 export const getCalendarMonth = (data) => api.post('/tools/calendar/month', data)
 export const getTodayInfo = () => api.get('/tools/calendar/today')
 
+export const convertLength = (data) => api.post('/tools/length/convert', data)
+
 export default api

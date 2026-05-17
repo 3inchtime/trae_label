@@ -196,3 +196,16 @@ class CalendarMonthResponse(BaseModel):
     days: List[CalendarDayInfo]
     first_day_weekday: int
     total_days: int
+
+
+class LengthConvertRequest(BaseModel):
+    value: float
+    from_unit: str
+    to_unit: str
+
+
+class LengthConvertResponse(BaseModel):
+    value: float
+    from_unit: str
+    to_unit: str
+    result: float

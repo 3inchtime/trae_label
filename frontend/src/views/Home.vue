@@ -140,6 +140,21 @@
             </svg>
           </div>
         </router-link>
+        
+        <router-link to="/tools/length" class="tool-card">
+          <div class="tool-icon-wrapper length">
+            <Icon name="ruler" :size="28" />
+          </div>
+          <div class="tool-content">
+            <h3>长度单位换算</h3>
+            <p>支持米、千米、英寸、英尺、英里、里、丈、尺、寸等多种长度单位的相互转换</p>
+          </div>
+          <div class="tool-arrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -247,6 +262,11 @@ import Icon from '../components/Icon.vue'
 .tool-icon-wrapper.calendar {
   background: rgba(139, 92, 246, 0.1);
   color: #8b5cf6;
+}
+
+.tool-icon-wrapper.length {
+  background: rgba(251, 146, 60, 0.1);
+  color: #fb923c;
 }
 
 .tool-content {

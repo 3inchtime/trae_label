@@ -10,6 +10,7 @@ import TimerTool from '../views/TimerTool.vue'
 import WeightConverter from '../views/WeightConverter.vue'
 import TimeDifferenceTool from '../views/TimeDifferenceTool.vue'
 import CalendarTool from '../views/CalendarTool.vue'
+import LengthConverter from '../views/LengthConverter.vue'
 
 const routes = [
   {
@@ -66,6 +67,11 @@ const routes = [
     path: '/tools/calendar',
     name: 'CalendarTool',
     component: CalendarTool
+  },
+  {
+    path: '/tools/length',
+    name: 'LengthConverter',
+    component: LengthConverter
   }
 ]
 
