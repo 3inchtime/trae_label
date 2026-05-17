@@ -10,176 +10,19 @@
       </div>
     </div>
     
-    <div v-if="loading" class="loading-state">
-      <div class="spinner-icon">
-        <Icon name="tools" :size="32" class="spinning" />
-      </div>
-      <p>加载中...</p>
-    </div>
-    
-    <div v-else-if="error" class="error-state">
-      <Icon name="error" :size="48" />
-      <p>{{ error }}</p>
-    </div>
-    
-    <div v-else class="tools-grid">
-      <router-link to="/tools/timestamp" class="tool-card">
-        <div class="tool-icon clock">
-          <Icon name="clock" :size="32" />
+    <div class="tools-grid">
+      <router-link
+        v-for="tool in tools"
+        :key="tool.id"
+        :to="tool.path"
+        class="tool-card"
+      >
+        <div :class="['tool-icon', tool.iconClass]">
+          <Icon :name="tool.icon" :size="32" />
         </div>
         <div class="tool-info">
-          <h3>时间戳转换</h3>
-          <p>时间戳与日期时间的相互转换</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/json" class="tool-card">
-        <div class="tool-icon json">
-          <Icon name="json" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>JSON格式化</h3>
-          <p>验证JSON格式，支持格式化和压缩</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/md5" class="tool-card">
-        <div class="tool-icon lock">
-          <Icon name="lock" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>MD5加密</h3>
-          <p>文本MD5哈希加密与对比验证</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/number-to-chinese" class="tool-card">
-        <div class="tool-icon money">
-          <Icon name="money" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>数字转中文大写</h3>
-          <p>将数字金额转换为标准中文大写</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/rsa" class="tool-card">
-        <div class="tool-icon key">
-          <Icon name="lock" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>RSA加密解密</h3>
-          <p>生成密钥对，使用公钥加密、私钥解密</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/timer" class="tool-card">
-        <div class="tool-icon timer">
-          <Icon name="clock" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>在线计时器</h3>
-          <p>创建和管理多个倒计时计时器</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/weight" class="tool-card">
-        <div class="tool-icon weight">
-          <Icon name="box" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>重量单位换算</h3>
-          <p>支持克、千克、吨、磅、盎司、斤、两等多种单位转换</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/time-difference" class="tool-card">
-        <div class="tool-icon time-diff">
-          <Icon name="clock" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>时间差计算</h3>
-          <p>计算两个时间之间的年、月、日、秒差距</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/calendar" class="tool-card">
-        <div class="tool-icon calendar">
-          <Icon name="calendar" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>万年历</h3>
-          <p>查看公历、农历、节气、节日等信息，支持快速跳转任意年月</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/length" class="tool-card">
-        <div class="tool-icon length">
-          <Icon name="ruler" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>长度单位换算</h3>
-          <p>支持米、千米、英寸、英尺、英里、里、丈、尺、寸等多种单位转换</p>
-        </div>
-        <div class="tool-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </div>
-      </router-link>
-      
-      <router-link to="/tools/color" class="tool-card">
-        <div class="tool-icon color">
-          <Icon name="palette" :size="32" />
-        </div>
-        <div class="tool-info">
-          <h3>颜色选择器</h3>
-          <p>可视化选择颜色，支持 HEX/RGB/HSL 格式转换、配色方案生成</p>
+          <h3>{{ tool.name }}</h3>
+          <p>{{ tool.shortDescription }}</p>
         </div>
         <div class="tool-arrow">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -192,29 +35,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { getTools } from '../api'
 import Icon from '../components/Icon.vue'
+import { toolsConfig } from '../config/toolsConfig'
 
-const tools = ref([])
-const loading = ref(false)
-const error = ref('')
-
-const fetchTools = async () => {
-  loading.value = true
-  error.value = ''
-  try {
-    const response = await getTools()
-    tools.value = response.data
-  } catch (err) {
-    error.value = '加载工具列表失败'
-    console.error(err)
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(fetchTools)
+const tools = toolsConfig
 </script>
 
 <style scoped>
@@ -253,32 +77,6 @@ onMounted(fetchTools)
   font-size: 0.95rem;
   color: var(--text-secondary);
   margin: 0;
-}
-
-.loading-state,
-.error-state {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: var(--text-secondary);
-}
-
-.spinner-icon {
-  margin-bottom: 1rem;
-  color: var(--accent-primary);
-}
-
-.spinning {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.error-state {
-  color: var(--accent-error);
 }
 
 .tools-grid {
