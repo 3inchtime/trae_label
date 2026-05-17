@@ -121,7 +121,7 @@ const tools = toolsConfig
 }
 
 .tool-icon.json {
-  background: rgba(99, 102, 241, 0.1);
+  background: rgba(59, 130, 246, 0.1);
   color: var(--accent-secondary);
 }
 
@@ -136,7 +136,7 @@ const tools = toolsConfig
 }
 
 .tool-icon.key {
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(14, 165, 233, 0.1);
   color: #8b5cf6;
 }
 
@@ -146,7 +146,7 @@ const tools = toolsConfig
 }
 
 .tool-icon.weight {
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(14, 165, 233, 0.1);
   color: #8b5cf6;
 }
 
@@ -156,7 +156,7 @@ const tools = toolsConfig
 }
 
 .tool-icon.calendar {
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(14, 165, 233, 0.1);
   color: #8b5cf6;
 }
 
@@ -176,7 +176,7 @@ const tools = toolsConfig
 }
 
 .tool-icon.yaml {
-  background: rgba(168, 85, 247, 0.1);
+  background: rgba(6, 182, 212, 0.1);
   color: #a855f7;
 }
 

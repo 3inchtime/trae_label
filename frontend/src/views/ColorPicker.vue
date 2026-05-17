@@ -491,7 +491,7 @@ function showSuccess(msg) {
   width: 56px;
   height: 56px;
   border-radius: var(--radius-lg);
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(14, 165, 233, 0.1);
   color: #8b5cf6;
   display: flex;
   align-items: center;
@@ -544,7 +544,7 @@ function showSuccess(msg) {
 }
 
 .card:hover {
-  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 12px 40px rgba(14, 165, 233, 0.2);
   transform: translateY(-4px);
   border-color: #8b5cf6;
 }
@@ -613,7 +613,7 @@ function showSuccess(msg) {
 .input-field:focus {
   outline: none;
   border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
 }
 
 .small-input {
@@ -727,7 +727,7 @@ function showSuccess(msg) {
 .color-btn:hover {
   transform: scale(1.15);
   border-color: #8b5cf6;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
 }
 
 .color-schemes {
@@ -765,7 +765,7 @@ function showSuccess(msg) {
 .scheme-color:hover {
   transform: scale(1.15);
   border-color: #8b5cf6;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
 }
 
 .contrast-check {
@@ -845,7 +845,7 @@ function showSuccess(msg) {
 .btn-primary:hover {
   background: linear-gradient(135deg, #7c3aed 0%, #0891b2 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
 }
 
 .btn-secondary {
@@ -864,7 +864,7 @@ function showSuccess(msg) {
 }
 
 .btn-secondary:hover {
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(14, 165, 233, 0.1);
   border-color: #8b5cf6;
   transform: translateY(-2px);
 }

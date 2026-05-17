@@ -52,7 +52,7 @@ const tools = toolsConfig
   gap: 1rem;
   font-size: 1.75rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 30%, var(--accent-secondary) 60%, var(--accent-tertiary) 100%);
+  background: var(--gradient-primary);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -72,13 +72,27 @@ const tools = toolsConfig
   height: 4px;
   background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary), transparent);
   border-radius: 2px;
-  box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
 }
 
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1.5rem;
+}
+
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1600px) {
+  .tools-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1700px;
+    margin: 0 auto;
+  }
 }
 
 .tool-card {
@@ -95,7 +109,7 @@ const tools = toolsConfig
   transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow-glass);
+  box-shadow: var(--shadow-md);
   animation: fadeInUp 0.6s ease-out forwards;
   opacity: 0;
 }
@@ -132,7 +146,7 @@ const tools = toolsConfig
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 60%);
   opacity: 0;
   transition: opacity var(--transition-slow);
   pointer-events: none;
@@ -147,9 +161,9 @@ const tools = toolsConfig
 }
 
 .tool-card:hover {
-  box-shadow: 0 20px 50px rgba(99, 102, 241, 0.15), 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-xl), 0 20px 50px rgba(59, 130, 246, 0.15);
   transform: translateY(-8px) scale(1.02);
-  border-color: transparent;
+  border-color: var(--border-strong);
 }
 
 .tool-icon-wrapper {
@@ -194,15 +208,15 @@ const tools = toolsConfig
 }
 
 .tool-icon-wrapper.clock {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.15) 100%);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(14, 165, 233, 0.15) 100%);
   color: var(--accent-primary);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
 }
 
 .tool-icon-wrapper.json {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25) 0%, rgba(124, 58, 237, 0.15) 100%);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.25) 0%, rgba(6, 182, 212, 0.15) 100%);
   color: var(--accent-secondary);
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25);
 }
 
 .tool-icon-wrapper.lock {
@@ -218,9 +232,9 @@ const tools = toolsConfig
 }
 
 .tool-icon-wrapper.key {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.25) 0%, rgba(99, 102, 241, 0.15) 100%);
-  color: #7c3aed;
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(59, 130, 246, 0.15) 100%);
+  color: #2563eb;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
 }
 
 .tool-icon-wrapper.timer {
@@ -283,7 +297,7 @@ const tools = toolsConfig
   background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
   transition: width var(--transition-normal);
   border-radius: 2px;
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
 }
 
 .tool-card:hover .tool-content h3 {
@@ -319,15 +333,15 @@ const tools = toolsConfig
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(14, 165, 233, 0.05) 100%);
 }
 
 .tool-card:hover .tool-arrow {
   opacity: 1;
   transform: translateX(0) scale(1);
   color: var(--accent-primary);
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.15) 100%);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(14, 165, 233, 0.15) 100%);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
 }
 
 @media (max-width: 768px) {
