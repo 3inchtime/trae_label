@@ -72,17 +72,6 @@
       <pre class="json-output minified">{{ minifiedJson }}</pre>
     </div>
 
-    <div class="card">
-      <div class="card-header">
-        <h2>示例JSON</h2>
-      </div>
-      <div class="sample-buttons">
-        <button @click="loadSample(1)" class="btn-secondary">示例1: 简单对象</button>
-        <button @click="loadSample(2)" class="btn-secondary">示例2: 数组</button>
-        <button @click="loadSample(3)" class="btn-secondary">示例3: 复杂嵌套</button>
-      </div>
-    </div>
-
     <div v-if="successMessage" class="alert alert-success">
       <Icon name="check" :size="20" />
       <span>{{ successMessage }}</span>
@@ -160,18 +149,6 @@ const handleMinify = async () => {
 
 const clearAll = () => {
   jsonInput.value = ''
-  formattedJson.value = ''
-  minifiedJson.value = ''
-  validationResult.value = null
-}
-
-const loadSample = (type) => {
-  const samples = {
-    1: '{"name": "张三", "age": 25, "city": "北京"}',
-    2: '[{"id": 1, "name": "苹果"}, {"id": 2, "name": "香蕉"}, {"id": 3, "name": "橙子"}]',
-    3: '{"user": {"name": "李四", "age": 30}, "hobbies": ["读书", "游泳", "编程"], "address": {"city": "上海", "district": "浦东新区"}}'
-  }
-  jsonInput.value = samples[type]
   formattedJson.value = ''
   minifiedJson.value = ''
   validationResult.value = null
@@ -327,12 +304,6 @@ const copyToClipboard = (text) => {
   color: var(--accent-error);
 }
 
-.sample-buttons {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
 .alert {
   padding: 1rem;
   border-radius: var(--radius-md);
@@ -353,10 +324,6 @@ const copyToClipboard = (text) => {
   .button-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
-  }
-  
-  .sample-buttons {
-    flex-direction: column;
   }
 }
 </style>

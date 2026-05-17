@@ -65,18 +65,6 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header">
-        <h2>快速示例</h2>
-      </div>
-      <div class="example-buttons">
-        <button @click="setExample('hello world')" class="btn-secondary">hello world</button>
-        <button @click="setExample('123456')" class="btn-secondary">123456</button>
-        <button @click="setExample('admin')" class="btn-secondary">admin</button>
-        <button @click="setExample('password')" class="btn-secondary">password</button>
-      </div>
-    </div>
-
     <div v-if="error" class="alert alert-error">
       <Icon name="error" :size="20" />
       <span>{{ error }}</span>
@@ -134,11 +122,6 @@ const compareHashFunc = async () => {
   } catch (err) {
     showError(err.response?.data?.detail || '对比失败')
   }
-}
-
-const setExample = (text) => {
-  encryptInput.value = text
-  compareText.value = text
 }
 
 const copyToClipboard = (text) => {
@@ -342,12 +325,6 @@ const showSuccess = (msg) => {
   color: var(--text-primary);
 }
 
-.example-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
-}
-
 .alert {
   padding: 1rem;
   border-radius: var(--radius-md);
@@ -370,9 +347,5 @@ const showSuccess = (msg) => {
   border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
-@media (max-width: 640px) {
-  .example-buttons {
-    grid-template-columns: 1fr 1fr;
-  }
-}
+
 </style>

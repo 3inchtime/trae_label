@@ -46,18 +46,6 @@
 
     <div class="card">
       <div class="card-header">
-        <h2>快捷示例</h2>
-      </div>
-      <div class="example-buttons">
-        <button @click="setExample(1234.56)" class="btn-secondary">1234.56</button>
-        <button @click="setExample(10000)" class="btn-secondary">10000</button>
-        <button @click="setExample(98765432.1)" class="btn-secondary">98765432.1</button>
-        <button @click="setExample(0)" class="btn-secondary">0</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
         <h2>转换规则</h2>
       </div>
       <ul class="rules-list">
@@ -102,11 +90,6 @@ const convertNumber = async () => {
   } catch (err) {
     showError('转换失败')
   }
-}
-
-const setExample = (num) => {
-  numberInput.value = num
-  convertNumber()
 }
 
 const copyToClipboard = (text) => {
@@ -276,12 +259,6 @@ const showSuccess = (msg) => {
   color: var(--text-primary);
 }
 
-.example-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
-}
-
 .rules-list {
   margin: 0;
   padding-left: 1.5rem;
@@ -317,10 +294,6 @@ const showSuccess = (msg) => {
 @media (max-width: 640px) {
   .input-row {
     flex-direction: column;
-  }
-  
-  .example-buttons {
-    grid-template-columns: 1fr 1fr;
   }
 }
 </style>

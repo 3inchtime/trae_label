@@ -65,18 +65,6 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-header">
-        <h2>快速示例</h2>
-      </div>
-      <div class="example-buttons">
-        <button @click="setExample('https://www.example.com/path?name=张三&age=25')" class="btn-secondary">中文参数URL</button>
-        <button @click="setExample('Hello World! @#$%^&*()')" class="btn-secondary">特殊字符</button>
-        <button @click="setExample('你好世界')" class="btn-secondary">纯中文</button>
-        <button @click="setExample('https%3A%2F%2Fwww.example.com%2F')" class="btn-secondary">已编码URL</button>
-      </div>
-    </div>
-
     <div v-if="error" class="alert alert-error">
       <Icon name="error" :size="20" />
       <span>{{ error }}</span>
@@ -132,11 +120,6 @@ const decodeUrl = async () => {
   } catch (err) {
     showError(err.response?.data?.detail || '解码失败')
   }
-}
-
-const setExample = (text) => {
-  encodeInput.value = text
-  decodeInput.value = text
 }
 
 const copyToClipboard = (text) => {
@@ -314,12 +297,6 @@ const showSuccess = (msg) => {
   color: var(--text-primary);
 }
 
-.example-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 0.75rem;
-}
-
 .alert {
   padding: 1rem;
   border-radius: var(--radius-md);
@@ -342,9 +319,5 @@ const showSuccess = (msg) => {
   border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
-@media (max-width: 640px) {
-  .example-buttons {
-    grid-template-columns: 1fr 1fr;
-  }
-}
+
 </style>
