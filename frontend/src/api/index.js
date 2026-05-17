@@ -39,5 +39,7 @@ export const getCalendarMonth = (data) => api.post('/tools/calendar/month', data
 export const getTodayInfo = () => api.get('/tools/calendar/today')
 
 export const convertLength = (data) => api.post('/tools/length/convert', data)
+export const urlEncode = (data) => api.post('/tools/url/encode', data)
+export const urlDecode = (data) => api.post('/tools/url/decode', data)
 
 export default api

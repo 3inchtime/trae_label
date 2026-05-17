@@ -12,6 +12,7 @@ import TimeDifferenceTool from '../views/TimeDifferenceTool.vue'
 import CalendarTool from '../views/CalendarTool.vue'
 import LengthConverter from '../views/LengthConverter.vue'
 import ColorPicker from '../views/ColorPicker.vue'
+import UrlTool from '../views/UrlTool.vue'
 
 const routes = [
   {
@@ -78,6 +79,11 @@ const routes = [
     path: '/tools/color',
     name: 'ColorPicker',
     component: ColorPicker
+  },
+  {
+    path: '/tools/url',
+    name: 'UrlTool',
+    component: UrlTool
   }
 ]
 

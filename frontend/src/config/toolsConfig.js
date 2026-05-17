@@ -97,5 +97,14 @@ export const toolsConfig = [
     shortDescription: '可视化选择颜色，支持 HEX/RGB/HSL 格式转换、配色方案生成',
     icon: 'palette',
     iconClass: 'color'
+  },
+  {
+    id: 'url',
+    path: '/tools/url',
+    name: 'URL 编码解码',
+    description: '对URL或文本进行编码和解码，支持自定义安全字符，处理中文和特殊字符',
+    shortDescription: '对URL或文本进行编码和解码，支持自定义安全字符',
+    icon: 'link',
+    iconClass: 'url'
   }
 ]

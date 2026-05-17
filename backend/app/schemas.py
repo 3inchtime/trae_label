@@ -209,3 +209,22 @@ class LengthConvertResponse(BaseModel):
     from_unit: str
     to_unit: str
     result: float
+
+
+class UrlEncodeRequest(BaseModel):
+    url: str
+    safe: Optional[str] = ''
+
+
+class UrlEncodeResponse(BaseModel):
+    original: str
+    encoded: str
+
+
+class UrlDecodeRequest(BaseModel):
+    url: str
+
+
+class UrlDecodeResponse(BaseModel):
+    original: str
+    decoded: str
