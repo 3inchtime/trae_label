@@ -11,6 +11,7 @@ import WeightConverter from '../views/WeightConverter.vue'
 import TimeDifferenceTool from '../views/TimeDifferenceTool.vue'
 import CalendarTool from '../views/CalendarTool.vue'
 import LengthConverter from '../views/LengthConverter.vue'
+import ColorPicker from '../views/ColorPicker.vue'
 
 const routes = [
   {
@@ -72,6 +73,11 @@ const routes = [
     path: '/tools/length',
     name: 'LengthConverter',
     component: LengthConverter
+  },
+  {
+    path: '/tools/color',
+    name: 'ColorPicker',
+    component: ColorPicker
   }
 ]
 

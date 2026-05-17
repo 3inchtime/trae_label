@@ -63,6 +63,10 @@
             <Icon name="ruler" :size="18" />
             <span>长度单位换算</span>
           </router-link>
+          <router-link to="/tools/color" class="sidebar-link" :class="{ active: $route.path === '/tools/color' }">
+            <Icon name="palette" :size="18" />
+            <span>颜色选择器</span>
+          </router-link>
         </nav>
       </aside>
       <main class="main-content">
