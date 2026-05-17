@@ -273,3 +273,21 @@ class YamlValidateResponse(BaseModel):
     error: Optional[str] = None
     line: Optional[int] = None
     column: Optional[int] = None
+
+
+class DeduplicateRequest(BaseModel):
+    text: str
+    ignore_case: Optional[bool] = False
+    remove_empty_lines: Optional[bool] = True
+    keep_order: Optional[bool] = True
+
+
+class DeduplicateResponse(BaseModel):
+    original_text: str
+    deduplicated_text: str
+    original_line_count: int
+    deduplicated_line_count: int
+    removed_count: int
+    ignore_case: bool
+    remove_empty_lines: bool
+    keep_order: bool

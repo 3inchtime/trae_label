@@ -14,6 +14,7 @@ import LengthConverter from '../views/LengthConverter.vue'
 import ColorPicker from '../views/ColorPicker.vue'
 import UrlTool from '../views/UrlTool.vue'
 import YamlTool from '../views/YamlTool.vue'
+import DeduplicateTool from '../views/DeduplicateTool.vue'
 import ReactionTest from '../views/ReactionTest.vue'
 import Auth from '../views/Auth.vue'
 
@@ -92,6 +93,11 @@ const routes = [
     path: '/tools/yaml',
     name: 'YamlTool',
     component: YamlTool
+  },
+  {
+    path: '/tools/deduplicate',
+    name: 'DeduplicateTool',
+    component: DeduplicateTool
   },
   {
     path: '/tools/reaction-test',

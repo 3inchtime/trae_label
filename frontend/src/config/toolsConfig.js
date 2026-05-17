@@ -117,6 +117,15 @@ export const toolsConfig = [
     iconClass: 'yaml'
   },
   {
+    id: 'deduplicate',
+    path: '/tools/deduplicate',
+    name: '文本去重',
+    description: '去除文本中的重复行，支持忽略大小写、移除空行等选项，保留原始顺序',
+    shortDescription: '去除文本中的重复行，支持多种去重选项',
+    icon: 'trash',
+    iconClass: 'deduplicate'
+  },
+  {
     id: 'reaction-test',
     path: '/tools/reaction-test',
     name: '反应速度测试',

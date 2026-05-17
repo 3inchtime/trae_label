@@ -45,6 +45,8 @@ export const urlDecode = (data) => api.post('/tools/url/decode', data)
 export const validateYaml = (data) => api.post('/tools/yaml/validate', data)
 export const formatYaml = (data) => api.post('/tools/yaml/format', data)
 
+export const deduplicateText = (data) => api.post('/tools/deduplicate/process', data)
+
 export const register = (data) => api.post('/auth/register', data)
 export const login = (data) => api.post('/auth/login', data)
 export const getCurrentUser = () => api.get('/auth/me', {
