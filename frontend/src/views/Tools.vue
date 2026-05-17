@@ -170,6 +170,21 @@ const tools = toolsConfig
   color: #ec4899;
 }
 
+.tool-icon.url {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.tool-icon.yaml {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+}
+
+.tool-icon.reaction {
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+}
+
 .tool-info {
   flex: 1;
   min-width: 0;
